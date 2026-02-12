@@ -1,28 +1,57 @@
-import BodyVisualization from '../components/BodyVisualization'
+import Simple3DModel from '../components/Simple3DModel'
 
 function BodyAnalysis({ userData }) {
+  const bodyMetrics = userData?.bodyMetrics || {
+    chest: 85,
+    arms: 78,
+    core: 82,
+    legs: 88,
+    overall: 83
+  }
+
   return (
     <div className="space-y-6">
       <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Body Composition Analysis</h1>
-        <p className="text-gray-600">Track your muscle development and body transformation progress</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">3D Body Analysis</h1>
+        <p className="text-gray-600">Interactive 3D visualization of your body composition</p>
       </div>
-      <BodyVisualization data={userData?.bodyMetrics} />
+      
+      {/* Large 3D Model Viewer */}
+      <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
+        <div className="relative w-full h-[700px] rounded-2xl overflow-hidden">
+          <Simple3DModel modelPath="/models/human.glb" />
+          
+          {/* Muscle Group Labels Overlay */}
+          <div className="absolute top-24 left-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg text-sm font-semibold shadow-lg border border-gray-200">
+            Arms: <span className="text-blue-600">{bodyMetrics.arms}%</span>
+          </div>
+          <div className="absolute top-24 right-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg text-sm font-semibold shadow-lg border border-gray-200">
+            Chest: <span className="text-green-600">{bodyMetrics.chest}%</span>
+          </div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg text-sm font-semibold shadow-lg border border-gray-200">
+            Core: <span className="text-orange-600">{bodyMetrics.core}%</span>
+          </div>
+          <div className="absolute bottom-32 left-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg text-sm font-semibold shadow-lg border border-gray-200">
+            Legs: <span className="text-purple-600">{bodyMetrics.legs}%</span>
+          </div>
+        </div>
+      </div>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-200">
           <h3 className="text-lg font-bold text-gray-900 mb-4">Progress Insights</h3>
           <div className="space-y-3">
             <div className="flex items-center justify-between p-3 bg-white rounded-lg">
               <span className="text-sm font-medium text-gray-700">Strongest Area</span>
-              <span className="text-sm font-bold text-blue-600">Legs (88%)</span>
+              <span className="text-sm font-bold text-blue-600">Legs ({bodyMetrics.legs}%)</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-white rounded-lg">
               <span className="text-sm font-medium text-gray-700">Focus Area</span>
-              <span className="text-sm font-bold text-orange-600">Arms (78%)</span>
+              <span className="text-sm font-bold text-orange-600">Arms ({bodyMetrics.arms}%)</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-white rounded-lg">
-              <span className="text-sm font-medium text-gray-700">Weekly Improvement</span>
-              <span className="text-sm font-bold text-green-600">+3.2%</span>
+              <span className="text-sm font-medium text-gray-700">Overall Score</span>
+              <span className="text-sm font-bold text-green-600">{bodyMetrics.overall}%</span>
             </div>
           </div>
         </div>

@@ -1,3 +1,5 @@
+import Simple3DModel from './Simple3DModel'
+
 function BodyVisualization({ data }) {
   const bodyMetrics = data || {
     chest: 85,
@@ -35,27 +37,23 @@ function BodyVisualization({ data }) {
         </div>
       </div>
       
-      {/* Body Image with subtle 3D rotation */}
-      <div className="flex justify-center" style={{ perspective: '1200px' }}>
-        <div className="relative w-fit h-fit bg-white/80 backdrop-blur-sm rounded-2xl border-2 border-gray-200/50 overflow-hidden shadow-md p-4 body-rotation">
-          <img 
-            src="/dbt2.png" 
-            alt="Human Body Diagram" 
-            className="w-auto h-[500px] object-contain"
-          />
-
-          {/* Muscle Group Labels */}
-          <div className="absolute top-20 left-2 bg-white/80 backdrop-blur-sm px-2 py-1 rounded text-xs font-semibold shadow-sm">
-            Arms: {bodyMetrics.arms}%
+      {/* 3D Body Model */}
+      <div className="flex justify-center">
+        <div className="relative w-full h-[500px] rounded-2xl overflow-hidden">
+          <Simple3DModel modelPath="/models/human.glb" />
+          
+          {/* Muscle Group Labels Overlay */}
+          <div className="absolute top-20 left-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-lg text-xs font-semibold shadow-lg border border-gray-200">
+            Arms: <span style={{ color: getProgressColorHex(bodyMetrics.arms) }}>{bodyMetrics.arms}%</span>
           </div>
-          <div className="absolute top-28 right-2 bg-white/80 backdrop-blur-sm px-2 py-1 rounded text-xs font-semibold shadow-sm">
-            Chest: {bodyMetrics.chest}%
+          <div className="absolute top-20 right-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-lg text-xs font-semibold shadow-lg border border-gray-200">
+            Chest: <span style={{ color: getProgressColorHex(bodyMetrics.chest) }}>{bodyMetrics.chest}%</span>
           </div>
-          <div className="absolute top-44 left-1/2 -translate-x-1/2 bg-white/80 backdrop-blur-sm px-2 py-1 rounded text-xs font-semibold shadow-sm">
-            Core: {bodyMetrics.core}%
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-lg text-xs font-semibold shadow-lg border border-gray-200">
+            Core: <span style={{ color: getProgressColorHex(bodyMetrics.core) }}>{bodyMetrics.core}%</span>
           </div>
-          <div className="absolute bottom-32 left-2 bg-white/80 backdrop-blur-sm px-2 py-1 rounded text-xs font-semibold shadow-sm">
-            Legs: {bodyMetrics.legs}%
+          <div className="absolute bottom-24 left-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-lg text-xs font-semibold shadow-lg border border-gray-200">
+            Legs: <span style={{ color: getProgressColorHex(bodyMetrics.legs) }}>{bodyMetrics.legs}%</span>
           </div>
         </div>
       </div>
