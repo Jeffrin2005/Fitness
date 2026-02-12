@@ -77,4 +77,33 @@ router.put('/data', authMiddleware, async (req, res) => {
   }
 })
 
+// Update exercises
+router.put('/exercises', authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId)
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' })
+    }
+
+    // Update exercises
+    if (req.body.exercises) {
+      user.exercises = {
+        ...user.exercises,
+        exercises: req.body.exercises
+      }
+    }
+
+    await user.save()
+
+    res.json({
+      success: true,
+      exercises: user.exercises
+    })
+  } catch (error) {
+    console.error('Update exercises error:', error)
+    res.status(500).json({ message: 'Server error' })
+  }
+})
+
 export default router

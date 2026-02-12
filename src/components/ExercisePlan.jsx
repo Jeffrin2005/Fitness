@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-function ExercisePlan({ data }) {
-  const initialExercises = data?.exercises || [
+function ExercisePlan({ data, onWorkoutUpdate }) {
+  const initialExercises = [
     { id: 1, name: 'Push-ups', sets: 3, reps: 15, completed: false, category: 'Chest' },
     { id: 2, name: 'Squats', sets: 3, reps: 20, completed: false, category: 'Legs' },
     { id: 3, name: 'Plank', sets: 3, duration: '60s', completed: false, category: 'Core' },
@@ -10,12 +10,61 @@ function ExercisePlan({ data }) {
     { id: 6, name: 'Mountain Climbers', sets: 3, reps: 20, completed: false, category: 'Cardio' }
   ]
 
-  const [exercises, setExercises] = useState(initialExercises)
+  const [exercises, setExercises] = useState(data?.exercises || initialExercises)
+  const [isSaving, setIsSaving] = useState(false)
 
-  const toggleExercise = (id) => {
-    setExercises(exercises.map(ex => 
+  // Update exercises when data prop changes (but not while saving)
+  useEffect(() => {
+    if (data?.exercises && !isSaving) {
+      console.log('Updating exercises from props:', data.exercises)
+      setExercises(data.exercises)
+    }
+  }, [data, isSaving])
+
+  const toggleExercise = async (id) => {
+    const updatedExercises = exercises.map(ex => 
       ex.id === id ? { ...ex, completed: !ex.completed } : ex
-    ))
+    )
+    setExercises(updatedExercises)
+    setIsSaving(true)
+
+    // Save to backend
+    try {
+      const token = localStorage.getItem('token')
+      console.log('Saving exercises to backend:', updatedExercises)
+      
+      const response = await fetch('/api/user/exercises', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ exercises: updatedExercises })
+      })
+
+      console.log('Response status:', response.status)
+      const result = await response.json()
+      console.log('Response data:', result)
+
+      if (response.ok) {
+        console.log('Exercises saved successfully')
+        if (onWorkoutUpdate) {
+          // Refresh user data to update the dashboard
+          setTimeout(() => {
+            onWorkoutUpdate()
+            setIsSaving(false)
+          }, 100)
+        } else {
+          setIsSaving(false)
+        }
+      } else {
+        console.error('Failed to save exercises:', result)
+        setIsSaving(false)
+      }
+    } catch (error) {
+      console.error('Error updating exercises:', error)
+      setIsSaving(false)
+    }
   }
 
   const completedCount = exercises.filter(ex => ex.completed).length

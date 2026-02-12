@@ -38,6 +38,13 @@ function App() {
     }
   }
 
+  const refreshUserData = () => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      fetchUserData(token)
+    }
+  }
+
   const handleLogin = async (username, password) => {
     try {
       const response = await fetch('/api/auth/login', {
@@ -55,7 +62,33 @@ function App() {
         setIsAuthenticated(true)
         return { success: true }
       } else {
-        return { success: false, message: 'Invalid credentials' }
+        const error = await response.json()
+        return { success: false, message: error.message || 'Invalid credentials' }
+      }
+    } catch (error) {
+      return { success: false, message: 'Connection error' }
+    }
+  }
+
+  const handleSignup = async (username, email, password) => {
+    try {
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, email, password })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        localStorage.setItem('token', data.token)
+        setUserData(data.user)
+        setIsAuthenticated(true)
+        return { success: true }
+      } else {
+        const error = await response.json()
+        return { success: false, message: error.message || 'Signup failed' }
       }
     } catch (error) {
       return { success: false, message: 'Connection error' }
@@ -69,7 +102,7 @@ function App() {
   }
 
   if (!isAuthenticated) {
-    return <Login onLogin={handleLogin} />
+    return <Login onLogin={handleLogin} onSignup={handleSignup} />
   }
 
   return (
@@ -80,7 +113,7 @@ function App() {
           <Route path="/body-analysis" element={<BodyAnalysis userData={userData} />} />
           <Route path="/health-vitals" element={<HealthVitals userData={userData} />} />
           <Route path="/nutrition" element={<Nutrition userData={userData} />} />
-          <Route path="/workouts" element={<Workouts userData={userData} />} />
+          <Route path="/workouts" element={<Workouts userData={userData} onWorkoutUpdate={refreshUserData} />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Layout>

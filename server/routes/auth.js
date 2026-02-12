@@ -6,6 +6,121 @@ import User from '../models/User.js'
 const router = express.Router()
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production'
 
+// Helper function to create default user data
+const createDefaultUserData = (username, email = null) => ({
+  username,
+  email,
+  activity: {
+    steps: 0,
+    stepsGoal: 10000,
+    runningKm: 0,
+    runningGoal: 5,
+    caloriesBurned: 0
+  },
+  bodyMetrics: {
+    chest: 50,
+    arms: 50,
+    core: 50,
+    legs: 50,
+    overall: 50
+  },
+  healthMetrics: {
+    bloodSugar: 95,
+    bloodPressure: { systolic: 120, diastolic: 80 },
+    heartRate: 72,
+    weight: 70,
+    bmi: 22,
+    bodyFat: 20
+  },
+  nutrition: {
+    proteinTarget: 150,
+    proteinConsumed: 0,
+    recommendedFoods: [
+      { name: 'Chicken Breast', protein: 31, serving: '100g', emoji: '🍗' },
+      { name: 'Greek Yogurt', protein: 10, serving: '100g', emoji: '🥛' },
+      { name: 'Eggs', protein: 13, serving: '2 eggs', emoji: '🥚' },
+      { name: 'Salmon', protein: 25, serving: '100g', emoji: '🐟' },
+      { name: 'Lentils', protein: 9, serving: '100g', emoji: '🫘' },
+      { name: 'Almonds', protein: 21, serving: '100g', emoji: '🥜' }
+    ]
+  },
+  exercises: {
+    exercises: [
+      { id: 1, name: 'Push-ups', sets: 3, reps: 15, completed: false, category: 'Chest', emoji: '💪' },
+      { id: 2, name: 'Squats', sets: 3, reps: 20, completed: false, category: 'Legs', emoji: '🦵' },
+      { id: 3, name: 'Plank', sets: 3, duration: '60s', completed: false, category: 'Core', emoji: '🧘' },
+      { id: 4, name: 'Lunges', sets: 3, reps: 12, completed: false, category: 'Legs', emoji: '🏃' },
+      { id: 5, name: 'Burpees', sets: 3, reps: 10, completed: false, category: 'Full Body', emoji: '🔥' },
+      { id: 6, name: 'Mountain Climbers', sets: 3, reps: 20, completed: false, category: 'Cardio', emoji: '⛰️' }
+    ]
+  }
+})
+
+// Signup
+router.post('/signup', async (req, res) => {
+  try {
+    const { username, email, password } = req.body
+
+    // Validation
+    if (!username || !password) {
+      return res.status(400).json({ message: 'Username and password are required' })
+    }
+
+    if (username.length < 3) {
+      return res.status(400).json({ message: 'Username must be at least 3 characters' })
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters' })
+    }
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ username })
+    if (existingUser) {
+      return res.status(400).json({ message: 'Username already exists' })
+    }
+
+    // Check if email already exists (if provided)
+    if (email) {
+      const existingEmail = await User.findOne({ email })
+      if (existingEmail) {
+        return res.status(400).json({ message: 'Email already registered' })
+      }
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10)
+
+    // Create new user with default data
+    const userData = createDefaultUserData(username, email)
+    const user = new User({
+      ...userData,
+      password: hashedPassword
+    })
+
+    await user.save()
+
+    // Generate token
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '7d' })
+
+    res.status(201).json({
+      token,
+      user: {
+        username: user.username,
+        email: user.email,
+        activity: user.activity,
+        bodyMetrics: user.bodyMetrics,
+        healthMetrics: user.healthMetrics,
+        nutrition: user.nutrition,
+        exercises: user.exercises
+      }
+    })
+  } catch (error) {
+    console.error('Signup error:', error)
+    res.status(500).json({ message: 'Server error during signup' })
+  }
+})
+
 // Login
 router.post('/login', async (req, res) => {
   try {
@@ -17,8 +132,9 @@ router.post('/login', async (req, res) => {
     // If user doesn't exist and credentials are admin/admin, create default admin user
     if (!user && username === 'admin' && password === 'admin') {
       const hashedPassword = await bcrypt.hash('admin', 10)
+      const adminData = createDefaultUserData('admin', 'admin@fittrack.com')
       user = new User({
-        username: 'admin',
+        ...adminData,
         password: hashedPassword,
         activity: {
           steps: 8547,
@@ -33,36 +149,6 @@ router.post('/login', async (req, res) => {
           core: 82,
           legs: 88,
           overall: 83
-        },
-        healthMetrics: {
-          bloodSugar: 95,
-          bloodPressure: { systolic: 120, diastolic: 80 },
-          heartRate: 72,
-          weight: 75,
-          bmi: 23.5,
-          bodyFat: 18
-        },
-        nutrition: {
-          proteinTarget: 150,
-          proteinConsumed: 85,
-          recommendedFoods: [
-            { name: 'Chicken Breast', protein: 31, serving: '100g', emoji: '🍗' },
-            { name: 'Greek Yogurt', protein: 10, serving: '100g', emoji: '🥛' },
-            { name: 'Eggs', protein: 13, serving: '2 eggs', emoji: '🥚' },
-            { name: 'Salmon', protein: 25, serving: '100g', emoji: '🐟' },
-            { name: 'Lentils', protein: 9, serving: '100g', emoji: '🫘' },
-            { name: 'Almonds', protein: 21, serving: '100g', emoji: '🥜' }
-          ]
-        },
-        exercises: {
-          exercises: [
-            { id: 1, name: 'Push-ups', sets: 3, reps: 15, completed: false, emoji: '💪' },
-            { id: 2, name: 'Squats', sets: 3, reps: 20, completed: false, emoji: '🦵' },
-            { id: 3, name: 'Plank', sets: 3, duration: '60s', completed: false, emoji: '🧘' },
-            { id: 4, name: 'Lunges', sets: 3, reps: 12, completed: false, emoji: '🏃' },
-            { id: 5, name: 'Burpees', sets: 3, reps: 10, completed: false, emoji: '🔥' },
-            { id: 6, name: 'Mountain Climbers', sets: 3, reps: 20, completed: false, emoji: '⛰️' }
-          ]
         }
       })
       await user.save()
@@ -85,6 +171,7 @@ router.post('/login', async (req, res) => {
       token,
       user: {
         username: user.username,
+        email: user.email,
         activity: user.activity,
         bodyMetrics: user.bodyMetrics,
         healthMetrics: user.healthMetrics,

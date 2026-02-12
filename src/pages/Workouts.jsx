@@ -1,6 +1,6 @@
 import ExercisePlan from '../components/ExercisePlan'
 
-function Workouts({ userData }) {
+function Workouts({ userData, onWorkoutUpdate }) {
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -10,7 +10,7 @@ function Workouts({ userData }) {
       </div>
 
       {/* Exercise Plan */}
-      <ExercisePlan data={userData?.exercises} />
+      <ExercisePlan data={userData?.exercises} onWorkoutUpdate={onWorkoutUpdate} />
 
       {/* Workout Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

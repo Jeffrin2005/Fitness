@@ -1,8 +1,11 @@
 import { useState } from 'react'
 
-function Login({ onLogin }) {
+function Login({ onLogin, onSignup }) {
+  const [isSignup, setIsSignup] = useState(false)
   const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -11,12 +14,45 @@ function Login({ onLogin }) {
     setError('')
     setLoading(true)
 
-    const result = await onLogin(username, password)
-    
-    if (!result.success) {
-      setError(result.message)
+    if (isSignup) {
+      // Validation for signup
+      if (password !== confirmPassword) {
+        setError('Passwords do not match')
+        setLoading(false)
+        return
+      }
+      if (password.length < 6) {
+        setError('Password must be at least 6 characters')
+        setLoading(false)
+        return
+      }
+      if (username.length < 3) {
+        setError('Username must be at least 3 characters')
+        setLoading(false)
+        return
+      }
+
+      const result = await onSignup(username, email, password)
+      if (!result.success) {
+        setError(result.message)
+      }
+    } else {
+      // Login
+      const result = await onLogin(username, password)
+      if (!result.success) {
+        setError(result.message)
+      }
     }
     setLoading(false)
+  }
+
+  const toggleMode = () => {
+    setIsSignup(!isSignup)
+    setError('')
+    setUsername('')
+    setEmail('')
+    setPassword('')
+    setConfirmPassword('')
   }
 
   return (
@@ -32,10 +68,10 @@ function Login({ onLogin }) {
             </svg>
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">FitTrack Pro</h1>
-          <p className="text-gray-600">Professional Fitness Management System</p>
+          <p className="text-gray-600">{isSignup ? 'Create your account' : 'Welcome back!'}</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Username
@@ -49,6 +85,22 @@ function Login({ onLogin }) {
               required
             />
           </div>
+
+          {isSignup && (
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition bg-gray-50"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+          )}
 
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -64,6 +116,22 @@ function Login({ onLogin }) {
             />
           </div>
 
+          {isSignup && (
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition bg-gray-50"
+                placeholder="Confirm your password"
+                required
+              />
+            </div>
+          )}
+
           {error && (
             <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded-lg">
               <p className="font-medium">{error}</p>
@@ -75,14 +143,25 @@ function Login({ onLogin }) {
             disabled={loading}
             className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-800 transition shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Signing in...' : 'Sign In'}
+            {loading ? (isSignup ? 'Creating Account...' : 'Signing in...') : (isSignup ? 'Sign Up' : 'Sign In')}
           </button>
         </form>
 
-        <div className="mt-6 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
-          <p>Demo Credentials</p>
-          <p className="mt-1">Username: <span className="font-semibold text-gray-700">admin</span> | Password: <span className="font-semibold text-gray-700">admin</span></p>
+        <div className="mt-6 text-center">
+          <button
+            onClick={toggleMode}
+            className="text-blue-600 hover:text-blue-700 font-medium text-sm"
+          >
+            {isSignup ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
+          </button>
         </div>
+
+        {!isSignup && (
+          <div className="mt-6 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
+            <p>Demo Credentials</p>
+            <p className="mt-1">Username: <span className="font-semibold text-gray-700">admin</span> | Password: <span className="font-semibold text-gray-700">admin</span></p>
+          </div>
+        )}
       </div>
     </div>
   )

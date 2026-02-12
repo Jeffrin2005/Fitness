@@ -6,9 +6,22 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  email: {
+    type: String,
+    sparse: true,
+    unique: true
+  },
   password: {
     type: String,
     required: true
+  },
+  googleId: {
+    type: String,
+    sparse: true,
+    unique: true
+  },
+  picture: {
+    type: String
   },
   activity: {
     steps: { type: Number, default: 0 },
@@ -53,6 +66,7 @@ const userSchema = new mongoose.Schema({
       reps: Number,
       duration: String,
       completed: Boolean,
+      category: String,
       emoji: String
     }]
   },
