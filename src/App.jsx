@@ -70,14 +70,14 @@ function App() {
     }
   }
 
-  const handleSignup = async (username, email, password) => {
+  const handleSignup = async (username, password) => {
     try {
       const response = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, email, password })
+        body: JSON.stringify({ username, password })
       })
 
       if (response.ok) {

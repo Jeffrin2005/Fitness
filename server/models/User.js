@@ -70,6 +70,28 @@ const userSchema = new mongoose.Schema({
       emoji: String
     }]
   },
+  workoutData: {
+    pushups: {
+      count: { type: Number, default: 0 },
+      frequency: { type: Number, default: 0 }
+    },
+    armExercises: {
+      count: { type: Number, default: 0 },
+      frequency: { type: Number, default: 0 }
+    },
+    chestExercises: {
+      count: { type: Number, default: 0 },
+      frequency: { type: Number, default: 0 }
+    },
+    legExercises: {
+      count: { type: Number, default: 0 },
+      frequency: { type: Number, default: 0 }
+    },
+    coreExercises: {
+      count: { type: Number, default: 0 },
+      frequency: { type: Number, default: 0 }
+    }
+  },
   createdAt: {
     type: Date,
     default: Date.now

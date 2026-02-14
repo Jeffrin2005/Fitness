@@ -4,6 +4,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import authRoutes from './routes/auth.js'
 import userRoutes from './routes/user.js'
+import workoutRoutes from './routes/workout.js'
 
 dotenv.config()
 
@@ -27,6 +28,7 @@ mongoose.connect(MONGODB_URI)
 // Routes
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
+app.use('/api/workout', workoutRoutes)
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Server is running' })

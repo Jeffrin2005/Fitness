@@ -109,7 +109,7 @@ function Overview({ userData }) {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <ActivityTracker data={userData?.activity} />
-        <BodyVisualization data={userData?.bodyMetrics} />
+        <BodyVisualization data={userData?.bodyMetrics} workoutData={userData?.workoutData} />
       </div>
 
       {/* Body Part Metrics - moved below Activity Overview */}

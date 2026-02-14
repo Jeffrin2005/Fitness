@@ -37,7 +37,8 @@ router.get('/data', authMiddleware, async (req, res) => {
       bodyMetrics: user.bodyMetrics,
       healthMetrics: user.healthMetrics,
       nutrition: user.nutrition,
-      exercises: user.exercises
+      exercises: user.exercises,
+      workoutData: user.workoutData
     })
   } catch (error) {
     console.error('Get user data error:', error)
@@ -60,6 +61,7 @@ router.put('/data', authMiddleware, async (req, res) => {
     if (req.body.healthMetrics) user.healthMetrics = { ...user.healthMetrics, ...req.body.healthMetrics }
     if (req.body.nutrition) user.nutrition = { ...user.nutrition, ...req.body.nutrition }
     if (req.body.exercises) user.exercises = { ...user.exercises, ...req.body.exercises }
+    if (req.body.workoutData) user.workoutData = { ...user.workoutData, ...req.body.workoutData }
 
     await user.save()
 
@@ -69,7 +71,8 @@ router.put('/data', authMiddleware, async (req, res) => {
       bodyMetrics: user.bodyMetrics,
       healthMetrics: user.healthMetrics,
       nutrition: user.nutrition,
-      exercises: user.exercises
+      exercises: user.exercises,
+      workoutData: user.workoutData
     })
   } catch (error) {
     console.error('Update user data error:', error)

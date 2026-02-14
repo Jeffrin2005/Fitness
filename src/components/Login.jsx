@@ -3,7 +3,6 @@ import { useState } from 'react'
 function Login({ onLogin, onSignup }) {
   const [isSignup, setIsSignup] = useState(false)
   const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
@@ -32,7 +31,7 @@ function Login({ onLogin, onSignup }) {
         return
       }
 
-      const result = await onSignup(username, email, password)
+      const result = await onSignup(username, password)
       if (!result.success) {
         setError(result.message)
       }
@@ -50,7 +49,6 @@ function Login({ onLogin, onSignup }) {
     setIsSignup(!isSignup)
     setError('')
     setUsername('')
-    setEmail('')
     setPassword('')
     setConfirmPassword('')
   }
@@ -85,22 +83,6 @@ function Login({ onLogin, onSignup }) {
               required
             />
           </div>
-
-          {isSignup && (
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition bg-gray-50"
-                placeholder="Enter your email"
-                required
-              />
-            </div>
-          )}
 
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">

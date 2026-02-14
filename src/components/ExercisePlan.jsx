@@ -11,28 +11,23 @@ function ExercisePlan({ data, onWorkoutUpdate }) {
   ]
 
   const [exercises, setExercises] = useState(data?.exercises || initialExercises)
-  const [isSaving, setIsSaving] = useState(false)
 
-  // Update exercises when data prop changes (but not while saving)
+  // Update exercises when data prop changes
   useEffect(() => {
-    if (data?.exercises && !isSaving) {
-      console.log('Updating exercises from props:', data.exercises)
+    if (data?.exercises) {
       setExercises(data.exercises)
     }
-  }, [data, isSaving])
+  }, [data])
 
   const toggleExercise = async (id) => {
     const updatedExercises = exercises.map(ex => 
       ex.id === id ? { ...ex, completed: !ex.completed } : ex
     )
     setExercises(updatedExercises)
-    setIsSaving(true)
 
     // Save to backend
     try {
       const token = localStorage.getItem('token')
-      console.log('Saving exercises to backend:', updatedExercises)
-      
       const response = await fetch('/api/user/exercises', {
         method: 'PUT',
         headers: {
@@ -42,28 +37,12 @@ function ExercisePlan({ data, onWorkoutUpdate }) {
         body: JSON.stringify({ exercises: updatedExercises })
       })
 
-      console.log('Response status:', response.status)
-      const result = await response.json()
-      console.log('Response data:', result)
-
-      if (response.ok) {
-        console.log('Exercises saved successfully')
-        if (onWorkoutUpdate) {
-          // Refresh user data to update the dashboard
-          setTimeout(() => {
-            onWorkoutUpdate()
-            setIsSaving(false)
-          }, 100)
-        } else {
-          setIsSaving(false)
-        }
-      } else {
-        console.error('Failed to save exercises:', result)
-        setIsSaving(false)
+      if (response.ok && onWorkoutUpdate) {
+        // Refresh user data to update the dashboard
+        onWorkoutUpdate()
       }
     } catch (error) {
       console.error('Error updating exercises:', error)
-      setIsSaving(false)
     }
   }
 

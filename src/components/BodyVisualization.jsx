@@ -1,6 +1,6 @@
 import Simple3DModel from './Simple3DModel'
 
-function BodyVisualization({ data }) {
+function BodyVisualization({ data, workoutData }) {
   const bodyMetrics = data || {
     chest: 85,
     arms: 78,
@@ -37,7 +37,7 @@ function BodyVisualization({ data }) {
         </div>
       </div>
       
-      {/* 3D Body Model */}
+      {/* 3D Body Model with GLB File */}
       <div className="flex justify-center">
         <div className="relative w-full h-[500px] rounded-2xl overflow-hidden">
           <Simple3DModel modelPath="/models/human.glb" />
