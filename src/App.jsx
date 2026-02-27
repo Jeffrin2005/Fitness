@@ -109,9 +109,9 @@ function App() {
     <Router>
       <Layout userData={userData} onLogout={handleLogout}>
         <Routes>
-          <Route path="/" element={<Overview userData={userData} />} />
+          <Route path="/" element={<Overview userData={userData} onUserDataUpdate={setUserData} />} />
           <Route path="/body-analysis" element={<BodyAnalysis userData={userData} />} />
-          <Route path="/health-vitals" element={<HealthVitals userData={userData} />} />
+          <Route path="/health-vitals" element={<HealthVitals userData={userData} onUserDataUpdate={setUserData} />} />
           <Route path="/nutrition" element={<Nutrition userData={userData} />} />
           <Route path="/workouts" element={<Workouts userData={userData} onWorkoutUpdate={refreshUserData} />} />
           <Route path="*" element={<Navigate to="/" replace />} />

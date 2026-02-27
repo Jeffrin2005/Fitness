@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Simple3DModel from '../components/Simple3DModel'
 import WorkoutSidebar from '../components/WorkoutSidebar'
+import ProgressPhotos from '../components/ProgressPhotos'
 
 function BodyAnalysis({ userData }) {
   const bodyMetrics = userData?.bodyMetrics || {
@@ -21,6 +22,10 @@ function BodyAnalysis({ userData }) {
     }))
   }
 
+  const handleUserDataUpdate = (newUserData) => {
+    setUpdatedUserData(newUserData)
+  }
+
   return (
     <div className="flex gap-6">
       {/* Main Content */}
@@ -29,12 +34,12 @@ function BodyAnalysis({ userData }) {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">3D Body Analysis</h1>
           <p className="text-gray-600">Interactive 3D visualization of your body composition</p>
         </div>
-        
+
         {/* Large 3D Model Viewer */}
         <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
           <div className="relative w-full h-[700px] rounded-2xl overflow-hidden">
             <Simple3DModel modelPath="/models/human.glb" workoutData={updatedUserData?.workoutData} />
-            
+
             {/* Muscle Group Labels Overlay */}
             <div className="absolute top-24 left-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg text-sm font-semibold shadow-lg border border-gray-200">
               Arms: <span className="text-blue-600">{updatedUserData?.bodyMetrics?.arms || bodyMetrics.arms}%</span>
@@ -51,6 +56,9 @@ function BodyAnalysis({ userData }) {
           </div>
         </div>
       </div>
+
+      {/* Progress Photos Section */}
+      <ProgressPhotos userData={userData} onUserDataUpdate={handleUserDataUpdate} />
 
       {/* Sidebar */}
       <div>

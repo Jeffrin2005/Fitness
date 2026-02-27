@@ -1,8 +1,10 @@
 import ActivityTracker from '../components/ActivityTracker'
 import BodyVisualization from '../components/BodyVisualization'
 import BodyPartMetrics from '../components/BodyPartMetrics'
+import EnhancedCSVUpload from '../components/EnhancedCSVUpload'
+import DataExport from '../components/DataExport'
 
-function Overview({ userData }) {
+function Overview({ userData, onUserDataUpdate }) {
   const activities = userData?.activity || {
     steps: 8547,
     stepsGoal: 10000,
@@ -17,6 +19,10 @@ function Overview({ userData }) {
 
   const completedExercises = userData?.exercises?.exercises?.filter(ex => ex.completed).length || 0
   const totalExercises = userData?.exercises?.exercises?.length || 6
+
+  const handleUploadSuccess = (updatedData) => {
+    onUserDataUpdate && onUserDataUpdate(updatedData)
+  }
 
   return (
     <div className="space-y-6">
@@ -35,19 +41,23 @@ function Overview({ userData }) {
             </p>
           </div>
 
-          {/* Key metrics summary (Strava-style transparent cards) */}
-          <div className="grid grid-cols-3 gap-3 text-xs sm:text-sm">
-            <div className="rounded-xl bg-gradient-to-br from-white to-orange-50/50 backdrop-blur-sm border border-orange-200/40 px-3 py-2.5 shadow-sm transition-all duration-300 hover:bg-white hover:shadow-md hover:scale-105 hover:border-orange-300/60">
-              <p className="text-[11px] text-gray-500 mb-1">Overall</p>
-              <p className="text-lg font-semibold text-gray-900">{bodyMetrics.overall}%</p>
-            </div>
-            <div className="rounded-xl bg-gradient-to-br from-white to-orange-50/50 backdrop-blur-sm border border-orange-200/40 px-3 py-2.5 shadow-sm transition-all duration-300 hover:bg-white hover:shadow-md hover:scale-105 hover:border-orange-300/60">
-              <p className="text-[11px] text-gray-500 mb-1">Steps</p>
-              <p className="text-lg font-semibold text-gray-900">{activities.steps.toLocaleString()}</p>
-            </div>
-            <div className="rounded-xl bg-gradient-to-br from-white to-orange-50/50 backdrop-blur-sm border border-orange-200/40 px-3 py-2.5 shadow-sm transition-all duration-300 hover:bg-white hover:shadow-md hover:scale-105 hover:border-orange-300/60">
-              <p className="text-[11px] text-gray-500 mb-1">Calories</p>
-              <p className="text-lg font-semibold text-gray-900">{activities.caloriesBurned}</p>
+          <div className="flex flex-col items-end gap-3">
+            <EnhancedCSVUpload onUploadSuccess={handleUploadSuccess} buttonText="Upload Activity Data" />
+            <DataExport userData={userData} />
+            {/* Key metrics summary (Strava-style transparent cards) */}
+            <div className="grid grid-cols-3 gap-3 text-xs sm:text-sm">
+              <div className="rounded-xl bg-gradient-to-br from-white to-orange-50/50 backdrop-blur-sm border border-orange-200/40 px-3 py-2.5 shadow-sm transition-all duration-300 hover:bg-white hover:shadow-md hover:scale-105 hover:border-orange-300/60">
+                <p className="text-[11px] text-gray-500 mb-1">Overall</p>
+                <p className="text-lg font-semibold text-gray-900">{bodyMetrics.overall}%</p>
+              </div>
+              <div className="rounded-xl bg-gradient-to-br from-white to-orange-50/50 backdrop-blur-sm border border-orange-200/40 px-3 py-2.5 shadow-sm transition-all duration-300 hover:bg-white hover:shadow-md hover:scale-105 hover:border-orange-300/60">
+                <p className="text-[11px] text-gray-500 mb-1">Steps</p>
+                <p className="text-lg font-semibold text-gray-900">{activities.steps.toLocaleString()}</p>
+              </div>
+              <div className="rounded-xl bg-gradient-to-br from-white to-orange-50/50 backdrop-blur-sm border border-orange-200/40 px-3 py-2.5 shadow-sm transition-all duration-300 hover:bg-white hover:shadow-md hover:scale-105 hover:border-orange-300/60">
+                <p className="text-[11px] text-gray-500 mb-1">Calories</p>
+                <p className="text-lg font-semibold text-gray-900">{activities.caloriesBurned}</p>
+              </div>
             </div>
           </div>
         </div>
