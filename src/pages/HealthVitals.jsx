@@ -1,12 +1,21 @@
 import HealthMetrics from '../components/HealthMetrics'
+import EnhancedCSVUpload from '../components/EnhancedCSVUpload'
 
-function HealthVitals({ userData }) {
+function HealthVitals({ userData, onUserDataUpdate }) {
+  const handleUploadSuccess = (updatedData) => {
+    onUserDataUpdate && onUserDataUpdate(updatedData)
+  }
   return (
     <div className="space-y-6">
       {/* Page Header */}
       <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Health Vitals Monitor</h1>
-        <p className="text-gray-600">Real-time tracking of your vital health metrics and indicators</p>
+        <div className="flex justify-between items-start">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Health Vitals Monitor</h1>
+            <p className="text-gray-600">Real-time tracking of your vital health metrics and indicators</p>
+          </div>
+          <EnhancedCSVUpload onUploadSuccess={handleUploadSuccess} buttonText="Upload Health Data" />
+        </div>
       </div>
 
       {/* Health Metrics */}
@@ -47,7 +56,7 @@ function HealthVitals({ userData }) {
         <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-2xl p-6 border border-red-200">
           <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
             <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
             </svg>
           </div>
           <h3 className="text-lg font-bold text-gray-900 mb-2">Heart Rate</h3>
