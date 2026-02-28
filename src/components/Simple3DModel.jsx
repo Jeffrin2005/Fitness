@@ -108,16 +108,16 @@ function Simple3DModel({ modelPath = '/models/human.glb', workoutData = {} }) {
       (gltf) => {
         const model = gltf.scene
         modelRef.current = model
-        
+
         // Center and scale model - increased scale for larger appearance
         const box = new THREE.Box3().setFromObject(model)
         const center = box.getCenter(new THREE.Vector3())
         const size = box.getSize(new THREE.Vector3())
-        
+
         const maxDim = Math.max(size.x, size.y, size.z)
-        const scale = 2.5 / maxDim  // Reduced from 2.8 to 2.5 for slightly smaller model
+        const scale = 2.2 / maxDim  // Reduced from 2.5 to 2.2 for better framing across all pages
         model.scale.multiplyScalar(scale)
-        
+
         model.position.x = -center.x * scale
         model.position.y = -center.y * scale
         model.position.z = -center.z * scale
@@ -127,49 +127,49 @@ function Simple3DModel({ modelPath = '/models/human.glb', workoutData = {} }) {
         let chestScaled = false
         let legsScaled = false
         let coreScaled = false
-        
+
         model.traverse((child) => {
           if (child.isMesh) {
             const name = child.name.toLowerCase()
             console.log('Found mesh:', name) // Debug: Log all mesh names
-            
+
             // Reset scale first, then apply growth
             const originalScale = child.scale.x
-            
+
             // Scale arms based on workout data
-            if (name.includes('arm') || name.includes('bicep') || name.includes('tricep') || 
-                name.includes('shoulder') || name.includes('deltoid')) {
+            if (name.includes('arm') || name.includes('bicep') || name.includes('tricep') ||
+              name.includes('shoulder') || name.includes('deltoid')) {
               console.log('Scaling arms from', originalScale, 'to', originalScale * growthFactors.arms)
               child.scale.set(originalScale * growthFactors.arms, originalScale * growthFactors.arms, originalScale * growthFactors.arms)
               armsScaled = true
             }
-            
+
             // Scale chest based on workout data
-            if (name.includes('chest') || name.includes('torso') || name.includes('pec') || 
-                name.includes('breast') || name.includes('rib')) {
+            if (name.includes('chest') || name.includes('torso') || name.includes('pec') ||
+              name.includes('breast') || name.includes('rib')) {
               console.log('Scaling chest from', originalScale, 'to', originalScale * growthFactors.chest)
               child.scale.set(originalScale * growthFactors.chest, originalScale * growthFactors.chest, originalScale * growthFactors.chest)
               chestScaled = true
             }
-            
+
             // Scale legs based on workout data
-            if (name.includes('leg') || name.includes('thigh') || name.includes('calf') || 
-                name.includes('quad') || name.includes('hamstring')) {
+            if (name.includes('leg') || name.includes('thigh') || name.includes('calf') ||
+              name.includes('quad') || name.includes('hamstring')) {
               console.log('Scaling legs from', originalScale, 'to', originalScale * growthFactors.legs)
               child.scale.set(originalScale * growthFactors.legs, originalScale * growthFactors.legs, originalScale * growthFactors.legs)
               legsScaled = true
             }
-            
+
             // Scale core based on workout data
-            if (name.includes('core') || name.includes('ab') || name.includes('abs') || 
-                name.includes('stomach') || name.includes('abdomen') || name.includes('waist')) {
+            if (name.includes('core') || name.includes('ab') || name.includes('abs') ||
+              name.includes('stomach') || name.includes('abdomen') || name.includes('waist')) {
               console.log('Scaling core from', originalScale, 'to', originalScale * growthFactors.core)
               child.scale.set(originalScale * growthFactors.core, originalScale * growthFactors.core, originalScale * growthFactors.core)
               coreScaled = true
             }
           }
         })
-        
+
         // Fallback: If no specific body parts were found, apply growth to ALL meshes
         if (!armsScaled && !chestScaled && !legsScaled && !coreScaled) {
           console.log('No specific body parts found, applying growth to all meshes')
@@ -183,7 +183,7 @@ function Simple3DModel({ modelPath = '/models/human.glb', workoutData = {} }) {
             }
           })
         }
-        
+
         scene.add(model)
       },
       (progress) => {
@@ -205,34 +205,34 @@ function Simple3DModel({ modelPath = '/models/human.glb', workoutData = {} }) {
     // Handle resize
     function handleResize() {
       if (!containerRef.current || !camera || !renderer) return
-      
+
       const width = containerRef.current.clientWidth
       const height = containerRef.current.clientHeight
-      
+
       camera.aspect = width / height
       camera.updateProjectionMatrix()
       renderer.setSize(width, height)
     }
-    
+
     window.addEventListener('resize', handleResize)
 
     // Cleanup
     return () => {
       mountedRef.current = false
       window.removeEventListener('resize', handleResize)
-      
+
       if (animationIdRef.current) {
         cancelAnimationFrame(animationIdRef.current)
       }
-      
+
       if (rendererRef.current && containerRef.current && containerRef.current.contains(rendererRef.current.domElement)) {
         containerRef.current.removeChild(rendererRef.current.domElement)
       }
-      
+
       if (rendererRef.current) {
         rendererRef.current.dispose()
       }
-      
+
       if (sceneRef.current) {
         sceneRef.current.traverse((object) => {
           if (object.geometry) object.geometry.dispose()
@@ -251,12 +251,12 @@ function Simple3DModel({ modelPath = '/models/human.glb', workoutData = {} }) {
   return (
     <div className="relative w-full h-full bg-white rounded-2xl overflow-hidden shadow-2xl border-2 border-gray-200">
       <div ref={containerRef} className="w-full h-full" />
-      
+
       {/* Instructions */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 backdrop-blur-sm px-4 py-2 rounded-full text-white text-sm z-10">
         🖱️ Drag to rotate • Scroll to zoom
       </div>
-      
+
       {/* Muscle Growth Legend */}
       {Object.keys(growthFactors).length > 0 && (
         <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-lg border border-gray-200">

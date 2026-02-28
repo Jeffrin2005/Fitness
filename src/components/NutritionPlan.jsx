@@ -1,14 +1,42 @@
+import { useState, useEffect } from 'react'
+
 function NutritionPlan({ data }) {
-  const nutrition = data || {
+  const [currentStats, setCurrentStats] = useState({
     proteinTarget: 150,
-    proteinConsumed: 85,
+    proteinConsumed: 0,
+    caloriesConsumed: 0,
+    calorieTarget: 2000,
+    completedMeals: 0
+  })
+
+  useEffect(() => {
+    // Update stats when window function is available
+    const updateStats = () => {
+      if (window.getCurrentNutritionStats) {
+        setCurrentStats(window.getCurrentNutritionStats())
+      }
+    }
+
+    updateStats()
+    // Set up interval to check for updates
+    const interval = setInterval(updateStats, 1000)
+    
+    return () => clearInterval(interval)
+  }, [])
+
+  const nutrition = {
+    ...currentStats,
     recommendedFoods: [
-      { name: 'Chicken Breast', protein: 31, serving: '100g', emoji: '🍗' },
-      { name: 'Greek Yogurt', protein: 10, serving: '100g', emoji: '🥛' },
-      { name: 'Eggs', protein: 13, serving: '2 eggs', emoji: '🥚' },
-      { name: 'Salmon', protein: 25, serving: '100g', emoji: '🐟' },
-      { name: 'Lentils', protein: 9, serving: '100g', emoji: '🫘' },
-      { name: 'Almonds', protein: 21, serving: '100g', emoji: '🥜' }
+      { name: '2 Eggs', protein: 12, serving: '2 boiled eggs', emoji: '🥚' },
+      { name: '2 Fish', protein: 50, serving: '2 medium sardines', emoji: '🐟' },
+      { name: 'Chicken', protein: 27, serving: '100g cooked', emoji: '🍗' },
+      { name: 'Soya Chunks', protein: 52, serving: '100g cooked', emoji: '🫘' },
+      { name: 'Handful Badam', protein: 10, serving: '15-20 almonds', emoji: '🥜' },
+      { name: 'Handful Groundnuts', protein: 12, serving: '25-30 peanuts', emoji: '🥜' },
+      { name: '1 Bowl Dal', protein: 9, serving: '1 bowl cooked', emoji: '🍛' },
+      { name: '1 Glass Milk', protein: 8, serving: '250ml', emoji: '🥛' },
+      { name: '1 Bowl Curd', protein: 11, serving: '1 bowl', emoji: '🥛' },
+      { name: '2 Paneer Pieces', protein: 18, serving: '2 medium pieces', emoji: '🧀' }
     ]
   }
 

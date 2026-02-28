@@ -26,15 +26,15 @@ function BodyAnalysis({ userData }) {
       {/* Main Content */}
       <div className="flex-1 space-y-6">
         <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">3D Body Analysis</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Body Metrics Analysis</h1>
           <p className="text-gray-600">Interactive 3D visualization of your body composition</p>
         </div>
-        
+
         {/* Large 3D Model Viewer */}
         <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-          <div className="relative w-full h-[700px] rounded-2xl overflow-hidden">
+          <div className="relative w-full h-[700px] rounded-2xl overflow-hidden bg-slate-50">
             <Simple3DModel modelPath="/models/human.glb" workoutData={updatedUserData?.workoutData} />
-            
+
             {/* Muscle Group Labels Overlay */}
             <div className="absolute top-24 left-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg text-sm font-semibold shadow-lg border border-gray-200">
               Arms: <span className="text-blue-600">{updatedUserData?.bodyMetrics?.arms || bodyMetrics.arms}%</span>
