@@ -131,7 +131,7 @@ function Layout({ children, userData, onLogout }) {
       <div className="lg:pl-72">
         {/* Top Bar */}
         <header className="sticky top-0 z-30 bg-white/70 backdrop-blur-xl border-b border-gray-200/50 shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+          <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-12 py-4 flex items-center justify-between">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="lg:hidden p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition"
@@ -155,7 +155,7 @@ function Layout({ children, userData, onLogout }) {
 
         {/* Tab Navigation (classic dashboard style) */}
         <div className="bg-white/60 backdrop-blur-xl border-b border-gray-200/50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-12">
             <div className="flex gap-2 sm:gap-4 overflow-x-auto scrollbar-hide py-2 sm:py-3">
               {navigation.map((item) => {
                 const isActive = location.pathname === item.path
@@ -178,7 +178,7 @@ function Layout({ children, userData, onLogout }) {
         </div>
 
         {/* Page Content */}
-        <main className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 transition-all duration-300 ease-in-out bg-gradient-to-br from-white/40 via-white/60 to-orange-50/20 min-h-screen">
+        <main className="max-w-full mx-auto p-4 sm:p-6 lg:p-12 transition-all duration-300 ease-in-out bg-gradient-to-br from-white/40 via-white/60 to-orange-50/20 min-h-screen">
           <div className="animate-fade-in">
             {children}
           </div>

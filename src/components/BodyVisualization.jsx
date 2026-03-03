@@ -36,12 +36,12 @@ function BodyVisualization({ data, workoutData }) {
           <div className="text-xs text-gray-500 font-medium">Overall Score</div>
         </div>
       </div>
-      
+
       {/* 3D Body Model with GLB File */}
       <div className="flex justify-center">
         <div className="relative w-full h-[500px] rounded-2xl overflow-hidden">
           <Simple3DModel modelPath="/models/human.glb" />
-          
+
           {/* Muscle Group Labels Overlay */}
           <div className="absolute top-20 left-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-lg text-xs font-semibold shadow-lg border border-gray-200">
             Arms: <span style={{ color: getProgressColorHex(bodyMetrics.arms) }}>{bodyMetrics.arms}%</span>
