@@ -3,9 +3,24 @@ import HealthMetrics from '../components/HealthMetrics'
 import EnhancedCSVUpload from '../components/EnhancedCSVUpload'
 
 function HealthVitals({ userData, onUserDataUpdate }) {
+  const [animateHeader, setAnimateHeader] = useState(false)
+  const [animateStats, setAnimateStats] = useState(false)
+  const [animateContent, setAnimateContent] = useState(false)
+
+  useEffect(() => {
+    setAnimateHeader(true)
+    const timer1 = setTimeout(() => setAnimateStats(true), 200)
+    const timer2 = setTimeout(() => setAnimateContent(true), 400)
+    return () => {
+      clearTimeout(timer1)
+      clearTimeout(timer2)
+    }
+  }, [])
+
   const handleUploadSuccess = (updatedData) => {
     onUserDataUpdate && onUserDataUpdate(updatedData)
   }
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
