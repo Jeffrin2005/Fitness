@@ -6,6 +6,7 @@ import authRoutes from './routes/auth.js'
 import userRoutes from './routes/user.js'
 import workoutRoutes from './routes/workout.js'
 import uploadRoutes from './routes/upload.js'
+import aiRoutes from './routes/ai.js'
 
 dotenv.config()
 
@@ -34,6 +35,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/workout', workoutRoutes)
 app.use('/api/upload', uploadRoutes)
+app.use('/api/ai', aiRoutes)
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Server is running' })

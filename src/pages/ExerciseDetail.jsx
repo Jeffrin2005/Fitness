@@ -48,7 +48,7 @@ function ExerciseDetail() {
         easier: 'Knee push-ups, incline push-ups against wall/bench, or reduced range of motion',
         harder: 'Decline push-ups, weighted push-ups, explosive clap push-ups, or one-arm push-ups'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['chest', 'shoulders', 'triceps', 'core'],
       caloriesPerMinute: 8,
       tips: [
@@ -96,7 +96,7 @@ function ExerciseDetail() {
         easier: 'Partial squats, chair squats for support, or holding onto something for balance',
         harder: 'Jump squats, weighted squats, pistol squats, or pause squats at bottom'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['quadriceps', 'glutes', 'hamstrings', 'calves'],
       caloriesPerMinute: 10,
       tips: [
@@ -144,7 +144,7 @@ function ExerciseDetail() {
         easier: 'Lighter weights, resistance bands, or preacher curls for support',
         harder: 'Heavier weights, hammer curls, concentration curls, or cheat curls'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['biceps', 'forearms'],
       caloriesPerMinute: 6,
       tips: [
@@ -192,7 +192,7 @@ function ExerciseDetail() {
         easier: 'Knee plank, incline plank against wall/bench, or shorter hold times',
         harder: 'Weighted plank, plank with leg raises, side planks, or plank jacks'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['core', 'shoulders', 'back'],
       caloriesPerMinute: 5,
       tips: [
@@ -240,7 +240,7 @@ function ExerciseDetail() {
         easier: 'Empty bar, lighter weights, or dumbbell press',
         harder: 'Heavier weights, pause reps, or close-grip bench press'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['chest', 'triceps', 'shoulders'],
       caloriesPerMinute: 9,
       tips: [
@@ -288,7 +288,7 @@ function ExerciseDetail() {
         easier: 'Lighter weights, single-arm rows, or supported rows',
         harder: 'Heavier weights, pause reps, or renegade rows'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['back', 'biceps', 'forearms'],
       caloriesPerMinute: 8,
       tips: [
@@ -336,7 +336,7 @@ function ExerciseDetail() {
         easier: 'Lighter weights, seated press, or resistance bands',
         harder: 'Heavier weights, barbell press, or push press'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['shoulders', 'triceps'],
       caloriesPerMinute: 7,
       tips: [
@@ -384,7 +384,7 @@ function ExerciseDetail() {
         easier: 'Bench dips with bent knees, or partial range of motion',
         harder: 'Weighted dips, straight-leg dips, or ring dips'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['triceps', 'chest', 'shoulders'],
       caloriesPerMinute: 8,
       tips: [
@@ -432,7 +432,7 @@ function ExerciseDetail() {
         easier: 'Lighter weights, Romanian deadlifts, or trap bar deadlifts',
         harder: 'Heavier weights, deficit deadlifts, or pause reps'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['glutes', 'hamstrings', 'quadriceps', 'back', 'core'],
       caloriesPerMinute: 12,
       tips: [
@@ -480,7 +480,7 @@ function ExerciseDetail() {
         easier: 'Lighter weight, single-leg press, or partial range',
         harder: 'Heavier weight, pause reps, or explosive reps'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['quadriceps', 'glutes', 'hamstrings'],
       caloriesPerMinute: 10,
       tips: [
@@ -528,7 +528,7 @@ function ExerciseDetail() {
         easier: 'Hold onto support, or do fewer reps',
         harder: 'Single-leg raises, weighted raises, or pause reps'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['calves'],
       caloriesPerMinute: 4,
       tips: [
@@ -576,7 +576,7 @@ function ExerciseDetail() {
         easier: 'Partial crunches, or fewer reps',
         harder: 'Weighted crunches, decline crunches, or cable crunches'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['core'],
       caloriesPerMinute: 6,
       tips: [
@@ -624,7 +624,7 @@ function ExerciseDetail() {
         easier: 'Assisted pull-ups, band-assisted, or negatives only',
         harder: 'Weighted pull-ups, wide grip, or muscle-ups'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['back', 'biceps', 'forearms'],
       caloriesPerMinute: 10,
       tips: [
@@ -672,7 +672,7 @@ function ExerciseDetail() {
         easier: 'Lighter weight, close grip, or assisted machine',
         harder: 'Heavier weight, pause reps, or behind neck'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['back', 'biceps'],
       caloriesPerMinute: 8,
       tips: [
@@ -720,7 +720,7 @@ function ExerciseDetail() {
         easier: 'Lighter weights, or resistance bands',
         harder: 'Heavier weights, preacher curls, or concentration curls'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['biceps', 'forearms'],
       caloriesPerMinute: 6,
       tips: [
@@ -768,7 +768,7 @@ function ExerciseDetail() {
         easier: 'Lighter weight, or band face pulls',
         harder: 'Heavier weight, pause reps, or single-arm'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['shoulders', 'upper back'],
       caloriesPerMinute: 6,
       tips: [
@@ -816,7 +816,7 @@ function ExerciseDetail() {
         easier: 'Lighter weight, box squats, or goblet squats',
         harder: 'Heavier weight, pause squats, or front squats'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['quadriceps', 'glutes', 'hamstrings', 'calves'],
       caloriesPerMinute: 12,
       tips: [
@@ -864,7 +864,7 @@ function ExerciseDetail() {
         easier: 'Static lunges, or holding support',
         harder: 'Weighted lunges, walking lunges, or jump lunges'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['quadriceps', 'glutes', 'hamstrings', 'calves'],
       caloriesPerMinute: 8,
       tips: [
@@ -912,7 +912,7 @@ function ExerciseDetail() {
         easier: 'Lighter weight, or single-leg curls',
         harder: 'Heavier weight, pause reps, or slow negatives'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['hamstrings'],
       caloriesPerMinute: 7,
       tips: [
@@ -960,7 +960,7 @@ function ExerciseDetail() {
         easier: 'Partial range of motion, or fewer reps',
         harder: 'Weighted bridges, single-leg, or pause reps'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['glutes', 'hamstrings'],
       caloriesPerMinute: 6,
       tips: [
@@ -1008,7 +1008,7 @@ function ExerciseDetail() {
         easier: 'Lighter weights, or lower incline',
         harder: 'Heavier weights, pause reps, or barbell press'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['chest', 'shoulders', 'triceps'],
       caloriesPerMinute: 9,
       tips: [
@@ -1056,7 +1056,7 @@ function ExerciseDetail() {
         easier: 'Lighter weights, or machine flyes',
         harder: 'Heavier weights, cable flyes, or pause reps'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['chest'],
       caloriesPerMinute: 7,
       tips: [
@@ -1104,7 +1104,7 @@ function ExerciseDetail() {
         easier: 'Lighter weights, or resistance bands',
         harder: 'Heavier weights, cable raises, or pause reps'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['shoulders'],
       caloriesPerMinute: 5,
       tips: [
@@ -1152,7 +1152,7 @@ function ExerciseDetail() {
         easier: 'Knee diamond push-ups, or incline version',
         harder: 'Weighted version, or decline diamond push-ups'
       },
-      youtubeUrl: 'https://www.youtube.com/embed/egHZ3bRMgYQ',
+      youtubeUrl: 'https://www.youtube.com/embed/mECzqUIDWfU',
       muscleGroups: ['triceps', 'chest', 'shoulders'],
       caloriesPerMinute: 8,
       tips: [
