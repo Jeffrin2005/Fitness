@@ -1,12 +1,55 @@
+import { useState, useEffect } from 'react'
+
 function HealthMetrics({ data }) {
-  const metrics = data || {
+  const [metrics, setMetrics] = useState(data || {
     bloodSugar: 95,
     bloodPressure: { systolic: 120, diastolic: 80 },
     heartRate: 72,
     weight: 75,
     bmi: 23.5,
     bodyFat: 18
-  }
+  })
+
+  useEffect(() => {
+    // Load initial data from prop or localStorage
+    if (data) {
+      setMetrics(data)
+    } else {
+      // Check for CSV uploaded health data
+      const csvHealthData = localStorage.getItem('healthMetricsData')
+      if (csvHealthData) {
+        try {
+          setMetrics(JSON.parse(csvHealthData))
+        } catch (error) {
+          console.error('Failed to parse health metrics from CSV:', error)
+        }
+      }
+    }
+  }, [data])
+
+  // Listen for CSV data updates
+  useEffect(() => {
+    const handleCSVDataUpload = (event) => {
+      const csvData = event.detail
+      if (csvData) {
+        const newHealthData = {
+          bloodSugar: parseInt(csvData.bloodSugar) || 95,
+          bloodPressure: { 
+            systolic: parseInt(csvData.bloodPressureSystolic) || 120, 
+            diastolic: parseInt(csvData.bloodPressureDiastolic) || 80 
+          },
+          heartRate: parseInt(csvData.heartRate) || 72,
+          weight: parseInt(csvData.weight) || 75,
+          bmi: parseFloat(csvData.bmi) || 23.5,
+          bodyFat: parseInt(csvData.bodyFat) || 18
+        }
+        setMetrics(newHealthData)
+      }
+    }
+
+    window.addEventListener('csvDataUploaded', handleCSVDataUpload)
+    return () => window.removeEventListener('csvDataUploaded', handleCSVDataUpload)
+  }, [])
 
   const getHealthStatus = (type, value) => {
     if (type === 'bloodSugar') {

@@ -1,11 +1,50 @@
+import { useState, useEffect } from 'react'
+
 function ActivityTracker({ data }) {
-  const activities = data || {
+  const [activities, setActivities] = useState(data || {
     steps: 8547,
     stepsGoal: 10000,
     runningKm: 3.2,
     runningGoal: 5,
     caloriesBurned: 420
-  }
+  })
+
+  useEffect(() => {
+    // Load initial data from prop or localStorage
+    if (data) {
+      setActivities(data)
+    } else {
+      // Check for CSV uploaded activity data
+      const csvActivityData = localStorage.getItem('activityData')
+      if (csvActivityData) {
+        try {
+          setActivities(JSON.parse(csvActivityData))
+        } catch (error) {
+          console.error('Failed to parse activity data from CSV:', error)
+        }
+      }
+    }
+  }, [data])
+
+  // Listen for CSV data updates
+  useEffect(() => {
+    const handleCSVDataUpload = (event) => {
+      const csvData = event.detail
+      if (csvData) {
+        const newActivityData = {
+          steps: parseInt(csvData.steps) || 0,
+          stepsGoal: parseInt(csvData.stepsGoal) || 10000,
+          runningKm: parseFloat(csvData.runningKm) || 0,
+          runningGoal: parseFloat(csvData.runningGoal) || 5,
+          caloriesBurned: parseInt(csvData.caloriesBurned) || 0
+        }
+        setActivities(newActivityData)
+      }
+    }
+
+    window.addEventListener('csvDataUploaded', handleCSVDataUpload)
+    return () => window.removeEventListener('csvDataUploaded', handleCSVDataUpload)
+  }, [])
 
   const stepsProgress = (activities.steps / activities.stepsGoal) * 100
   const runningProgress = (activities.runningKm / activities.runningGoal) * 100

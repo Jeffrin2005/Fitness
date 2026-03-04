@@ -1,16 +1,20 @@
 import { useState, useEffect } from 'react'
 import HealthMetrics from '../components/HealthMetrics'
+import EnhancedCSVUpload from '../components/EnhancedCSVUpload'
 
-function HealthVitals({ userData }) {
+function HealthVitals({ userData, onUserDataUpdate }) {
   const [animateHeader, setAnimateHeader] = useState(false)
   const [animateContent, setAnimateContent] = useState(false)
   const [animateStats, setAnimateStats] = useState(false)
+
+  const handleUploadSuccess = (updatedData) => {
+    onUserDataUpdate && onUserDataUpdate(updatedData)
+  }
 
   useEffect(() => {
     setAnimateHeader(true)
     const timer1 = setTimeout(() => setAnimateStats(true), 200)
     const timer2 = setTimeout(() => setAnimateContent(true), 400)
-    
     return () => {
       clearTimeout(timer1)
       clearTimeout(timer2)
@@ -29,7 +33,7 @@ function HealthVitals({ userData }) {
           }}></div>
         </div>
       </div>
-      
+
       {/* Premium Header */}
       <header className={`bg-white border-b border-blue-200 shadow-md sticky top-0 z-40 transition-all duration-700 ${animateHeader ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
         <div className="w-full px-6 sm:px-8 lg:px-12 py-6">
@@ -49,10 +53,14 @@ function HealthVitals({ userData }) {
                 </div>
               </div>
             </div>
-            <div className={`text-right transition-all duration-700 delay-200 ${animateHeader ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}>
-              <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">Status</div>
-              <div className="text-2xl font-medium bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-                Healthy
+            {/* ✅ upload-progress-photo: EnhancedCSVUpload added to header */}
+            <div className={`flex items-center gap-6 transition-all duration-700 delay-200 ${animateHeader ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}>
+              <EnhancedCSVUpload onUploadSuccess={handleUploadSuccess} buttonText="Upload Health Data" />
+              <div className="text-right">
+                <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">Status</div>
+                <div className="text-2xl font-medium bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                  Healthy
+                </div>
               </div>
             </div>
           </div>
@@ -107,7 +115,7 @@ function HealthVitals({ userData }) {
             <div className="flex items-center justify-between mb-4">
               <div className="w-10 h-10 bg-gradient-to-r from-pink-400 to-pink-600 flex items-center justify-center">
                 <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                 </svg>
               </div>
               <div className="text-xs font-medium text-pink-500 uppercase tracking-wider">Normal</div>

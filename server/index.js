@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import authRoutes from './routes/auth.js'
 import userRoutes from './routes/user.js'
 import workoutRoutes from './routes/workout.js'
+import uploadRoutes from './routes/upload.js'
 
 dotenv.config()
 
@@ -18,6 +19,9 @@ app.use(cors({
 }))
 app.use(express.json())
 
+// Serve uploaded files statically
+app.use('/uploads', express.static('uploads'))
+
 // MongoDB Connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/fitness-tracker'
 
@@ -29,6 +33,7 @@ mongoose.connect(MONGODB_URI)
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/workout', workoutRoutes)
+app.use('/api/upload', uploadRoutes)
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Server is running' })

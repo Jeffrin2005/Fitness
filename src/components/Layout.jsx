@@ -24,7 +24,6 @@ function Layout({ children, userData, onLogout }) {
         </svg>
       )
     },
-
     {
       name: 'Health Vitals',
       path: '/health-vitals',
@@ -64,9 +63,8 @@ function Layout({ children, userData, onLogout }) {
         />
       )}
 
-      {/* Sidebar - Classic & Approachable */}
-      <aside className={`fixed top-0 left-0 z-50 h-full w-72 bg-gradient-to-b from-white via-white to-gray-50/80 backdrop-blur-xl border-r border-gray-300/50 shadow-xl transform transition-all duration-300 ease-in-out lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}>
+      {/* Sidebar */}
+      <aside className={`fixed top-0 left-0 z-50 h-full w-72 bg-gradient-to-b from-white via-white to-gray-50/80 backdrop-blur-xl border-r border-gray-300/50 shadow-xl transform transition-all duration-300 ease-in-out lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         {/* Logo */}
         <div className="flex items-center gap-3 p-6 border-b border-gray-200/60 transition-colors duration-200">
           <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-500 rounded-xl flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-105">
@@ -154,7 +152,7 @@ function Layout({ children, userData, onLogout }) {
           </div>
         </header>
 
-        {/* Tab Navigation (classic dashboard style) */}
+        {/* Tab Navigation */}
         <div className="bg-white/60 backdrop-blur-xl border-b border-gray-200/50">
           <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-12">
             <div className="flex gap-2 sm:gap-4 overflow-x-auto scrollbar-hide py-2 sm:py-3">

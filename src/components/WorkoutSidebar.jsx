@@ -19,10 +19,41 @@ function WorkoutSidebar({ userData, onWorkoutUpdate }) {
     const timer = setTimeout(() => setAnimateContent(true), 200)
     return () => clearTimeout(timer)
     
+    // Load data from userData prop or localStorage
     if (userData?.workoutData) {
       setWorkoutData(userData.workoutData)
+    } else {
+      // Check for CSV uploaded data
+      const csvWorkoutData = localStorage.getItem('workoutData')
+      if (csvWorkoutData) {
+        try {
+          setWorkoutData(JSON.parse(csvWorkoutData))
+        } catch (error) {
+          console.error('Failed to parse workout data from CSV:', error)
+        }
+      }
     }
   }, [userData])
+
+  // Listen for CSV data updates
+  useEffect(() => {
+    const handleCSVDataUpload = (event) => {
+      const csvData = event.detail
+      if (csvData) {
+        const newWorkoutData = {
+          chestExercises: { count: parseInt(csvData.chest) || 0, frequency: 7 },
+          armExercises: { count: parseInt(csvData.arms) || 0, frequency: 7 },
+          coreExercises: { count: parseInt(csvData.core) || 0, frequency: 7 },
+          legExercises: { count: parseInt(csvData.legs) || 0, frequency: 7 },
+          pushups: { count: parseInt(csvData.overall) || 0, frequency: 7 }
+        }
+        setWorkoutData(newWorkoutData)
+      }
+    }
+
+    window.addEventListener('csvDataUploaded', handleCSVDataUpload)
+    return () => window.removeEventListener('csvDataUploaded', handleCSVDataUpload)
+  }, [])
 
   const handleInputChange = (exercise, field, value) => {
     setWorkoutData(prev => ({
