@@ -22,30 +22,6 @@ function HealthVitals({ userData, onUserDataUpdate }) {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Page Header */}
-      <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-        <div className="flex justify-between items-start">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Health Vitals Monitor</h1>
-            <p className="text-gray-600">Real-time tracking of your vital health metrics and indicators</p>
-          </div>
-          <EnhancedCSVUpload onUploadSuccess={handleUploadSuccess} buttonText="Upload Health Data" />
-        </div>
-      </div>
-
-  useEffect(() => {
-    setAnimateHeader(true)
-    const timer1 = setTimeout(() => setAnimateStats(true), 200)
-    const timer2 = setTimeout(() => setAnimateContent(true), 400)
-    
-    return () => {
-      clearTimeout(timer1)
-      clearTimeout(timer2)
-    }
-  }, [])
-
-  return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       {/* Premium Background Pattern */}
       <div className="fixed inset-0 bg-gradient-to-br from-blue-50/90 via-white/80 to-purple-50/90 pointer-events-none">
