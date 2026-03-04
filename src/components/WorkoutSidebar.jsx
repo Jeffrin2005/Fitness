@@ -137,23 +137,11 @@ function WorkoutSidebar({ userData, onWorkoutUpdate }) {
   }
 
   return (
-    <div className="w-80 bg-gradient-to-br from-blue-50 via-white to-purple-50 border border-blue-200 shadow-lg hover:shadow-xl transition-all duration-300">
-      {/* Premium Background Pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/90 via-white/80 to-purple-50/90 pointer-events-none">
-        <div className="absolute inset-0 opacity-20">
-          <div className="h-full w-full" style={{
-            backgroundImage: `linear-gradient(45deg, #e0e7ff 25%, transparent 25%, transparent 75%, #e0e7ff 75%, #e0e7ff), linear-gradient(-45deg, #e0e7ff 25%, transparent 25%, transparent 75%, #e0e7ff 75%, #e0e7ff)`,
-            backgroundSize: '40px 40px',
-            backgroundPosition: '0 0, 20px 20px'
-          }}></div>
-        </div>
-      </div>
+    <div className="w-80 bg-gradient-to-br from-blue-50 via-white to-purple-50 border border-blue-200 shadow-lg">
       
       <div className="relative z-10 p-6 h-fit">
         {/* Premium Header */}
-        <div className={`mb-6 transition-all duration-700 delay-100 ${
-          animateHeader ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
-        }`}>
+        <div className={`mb-6 ${animateHeader ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
           <div className="flex items-center gap-3 mb-2">
             <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
               <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -168,68 +156,66 @@ function WorkoutSidebar({ userData, onWorkoutUpdate }) {
         </div>
 
         {/* Quick Workout Buttons */}
-        <div className={`mb-6 transition-all duration-700 delay-200 ${
-          animateContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-        }`}>
+        <div className={`mb-6 ${animateContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           <h3 className="text-sm font-medium bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-3">Quick Add Workout</h3>
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => handleQuickWorkout('pushups')}
               disabled={isSubmitting}
-              className="group bg-gradient-to-r from-red-400 to-red-600 hover:from-red-500 hover:to-red-700 text-white px-3 py-2 text-xs font-medium transition-all duration-300 hover:scale-[1.05] hover:shadow-md disabled:opacity-50"
+              className="bg-gradient-to-r from-red-400 to-red-600 text-white px-3 py-2 text-xs font-medium disabled:opacity-50"
             >
               <span className="flex items-center justify-center gap-1">
-                <span className="group-hover:scale-110 transition-transform">💪</span>
+                <span>💪</span>
                 <span>+10 Pushups</span>
               </span>
             </button>
             <button
               onClick={() => handleQuickWorkout('arms')}
               disabled={isSubmitting}
-              className="group bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white px-3 py-2 text-xs font-medium transition-all duration-300 hover:scale-[1.05] hover:shadow-md disabled:opacity-50"
+              className="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-3 py-2 text-xs font-medium disabled:opacity-50"
             >
               <span className="flex items-center justify-center gap-1">
-                <span className="group-hover:scale-110 transition-transform">💪</span>
+                <span>💪</span>
                 <span>Arm Workout</span>
               </span>
             </button>
             <button
               onClick={() => handleQuickWorkout('chest')}
               disabled={isSubmitting}
-              className="group bg-gradient-to-r from-teal-400 to-teal-600 hover:from-teal-500 hover:to-teal-700 text-white px-3 py-2 text-xs font-medium transition-all duration-300 hover:scale-[1.05] hover:shadow-md disabled:opacity-50"
+              className="bg-gradient-to-r from-teal-400 to-teal-600 text-white px-3 py-2 text-xs font-medium disabled:opacity-50"
             >
               <span className="flex items-center justify-center gap-1">
-                <span className="group-hover:scale-110 transition-transform">💪</span>
+                <span>💪</span>
                 <span>Chest Workout</span>
               </span>
             </button>
             <button
               onClick={() => handleQuickWorkout('legs')}
               disabled={isSubmitting}
-              className="group bg-gradient-to-r from-indigo-400 to-indigo-600 hover:from-indigo-500 hover:to-indigo-700 text-white px-3 py-2 text-xs font-medium transition-all duration-300 hover:scale-[1.05] hover:shadow-md disabled:opacity-50"
+              className="bg-gradient-to-r from-indigo-400 to-indigo-600 text-white px-3 py-2 text-xs font-medium disabled:opacity-50"
             >
               <span className="flex items-center justify-center gap-1">
-                <span className="group-hover:scale-110 transition-transform">🦵</span>
+                <span>🦵</span>
                 <span>Leg Workout</span>
               </span>
             </button>
             <button
               onClick={() => handleQuickWorkout('core')}
               disabled={isSubmitting}
-              className="group bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-500 hover:to-amber-700 text-white px-3 py-2 text-xs font-medium transition-all duration-300 hover:scale-[1.05] hover:shadow-md disabled:opacity-50"
+              className="bg-gradient-to-r from-amber-400 to-amber-600 text-white px-3 py-2 text-xs font-medium disabled:opacity-50"
             >
               <span className="flex items-center justify-center gap-1">
-                <span className="group-hover:scale-110 transition-transform">🧘</span>
+                <span>🧘</span>
                 <span>Core Workout</span>
               </span>
             </button>
             <button
               onClick={() => handleQuickWorkout('pushups')}
               disabled={isSubmitting}
-              className="group bg-gradient-to-r from-purple-400 to-purple-600 hover:from-purple-500 hover:to-purple-700 text-white px-3 py-2 text-xs font-medium transition-all duration-300 hover:scale-[1.05] hover:shadow-md disabled:opacity-50"
+              className="bg-gradient-to-r from-purple-400 to-purple-600 text-white px-3 py-2 text-xs font-medium disabled:opacity-50"
             >
               <span className="flex items-center justify-center gap-1">
-                <span className="group-hover:scale-110 transition-transform">🔥</span>
+                <span>🔥</span>
                 <span>Full Body</span>
               </span>
             </button>
@@ -237,13 +223,11 @@ function WorkoutSidebar({ userData, onWorkoutUpdate }) {
         </div>
 
         {/* Detailed Workout Input */}
-        <form onSubmit={handleSubmit} className={`space-y-4 transition-all duration-700 delay-300 ${
-          animateContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-        }`}>
+        <form onSubmit={handleSubmit} className={`space-y-4 ${animateContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           <h3 className="text-sm font-medium bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-3">Detailed Tracking</h3>
           
           <div className="space-y-3">
-            <div className="group bg-white border border-red-200 p-3 hover:border-red-300 hover:shadow-sm transition-all duration-300">
+            <div className="bg-white border border-red-200 p-3">
               <label className="text-xs font-medium text-red-600 block mb-2 flex items-center gap-2">
                 <span className="w-4 h-4 bg-gradient-to-r from-red-400 to-red-600 flex items-center justify-center text-white text-[10px]">💪</span>
                 Push-ups
@@ -253,7 +237,7 @@ function WorkoutSidebar({ userData, onWorkoutUpdate }) {
                   type="number"
                   value={workoutData.pushups.count}
                   onChange={(e) => handleInputChange('pushups', 'count', e.target.value)}
-                  className="w-full px-2 py-1 border border-red-300 text-xs focus:ring-1 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
+                  className="w-full px-3 py-2 bg-white border border-red-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-red-500 focus:border-red-500 shadow-sm"
                   placeholder="Count"
                   min="0"
                 />
@@ -261,14 +245,14 @@ function WorkoutSidebar({ userData, onWorkoutUpdate }) {
                   type="number"
                   value={workoutData.pushups.frequency}
                   onChange={(e) => handleInputChange('pushups', 'frequency', e.target.value)}
-                  className="w-full px-2 py-1 border border-red-300 text-xs focus:ring-1 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
+                  className="w-full px-3 py-2 bg-white border border-red-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-red-500 focus:border-red-500 shadow-sm"
                   placeholder="Days/week"
                   min="0"
                 />
               </div>
             </div>
 
-            <div className="group bg-white border border-blue-200 p-3 hover:border-blue-300 hover:shadow-sm transition-all duration-300">
+            <div className="bg-white border border-blue-200 p-3">
               <label className="text-xs font-medium text-blue-600 block mb-2 flex items-center gap-2">
                 <span className="w-4 h-4 bg-gradient-to-r from-blue-400 to-blue-600 flex items-center justify-center text-white text-[10px]">💪</span>
                 Arm Exercises
@@ -278,7 +262,7 @@ function WorkoutSidebar({ userData, onWorkoutUpdate }) {
                   type="number"
                   value={workoutData.armExercises.count}
                   onChange={(e) => handleInputChange('armExercises', 'count', e.target.value)}
-                  className="w-full px-2 py-1 border border-blue-300 text-xs focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                  className="w-full px-3 py-2 bg-white border border-blue-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
                   placeholder="Count"
                   min="0"
                 />
@@ -286,14 +270,14 @@ function WorkoutSidebar({ userData, onWorkoutUpdate }) {
                   type="number"
                   value={workoutData.armExercises.frequency}
                   onChange={(e) => handleInputChange('armExercises', 'frequency', e.target.value)}
-                  className="w-full px-2 py-1 border border-blue-300 text-xs focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                  className="w-full px-3 py-2 bg-white border border-blue-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
                   placeholder="Days/week"
                   min="0"
                 />
               </div>
             </div>
 
-            <div className="group bg-white border border-teal-200 p-3 hover:border-teal-300 hover:shadow-sm transition-all duration-300">
+            <div className="bg-white border border-teal-200 p-3">
               <label className="text-xs font-medium text-teal-600 block mb-2 flex items-center gap-2">
                 <span className="w-4 h-4 bg-gradient-to-r from-teal-400 to-teal-600 flex items-center justify-center text-white text-[10px]">💪</span>
                 Chest Exercises
@@ -303,7 +287,7 @@ function WorkoutSidebar({ userData, onWorkoutUpdate }) {
                   type="number"
                   value={workoutData.chestExercises.count}
                   onChange={(e) => handleInputChange('chestExercises', 'count', e.target.value)}
-                  className="w-full px-2 py-1 border border-teal-300 text-xs focus:ring-1 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
+                  className="w-full px-3 py-2 bg-white border border-teal-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-teal-500 focus:border-teal-500 shadow-sm"
                   placeholder="Count"
                   min="0"
                 />
@@ -311,14 +295,14 @@ function WorkoutSidebar({ userData, onWorkoutUpdate }) {
                   type="number"
                   value={workoutData.chestExercises.frequency}
                   onChange={(e) => handleInputChange('chestExercises', 'frequency', e.target.value)}
-                  className="w-full px-2 py-1 border border-teal-300 text-xs focus:ring-1 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
+                  className="w-full px-3 py-2 bg-white border border-teal-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-teal-500 focus:border-teal-500 shadow-sm"
                   placeholder="Days/week"
                   min="0"
                 />
               </div>
             </div>
 
-            <div className="group bg-white border border-indigo-200 p-3 hover:border-indigo-300 hover:shadow-sm transition-all duration-300">
+            <div className="bg-white border border-indigo-200 p-3">
               <label className="text-xs font-medium text-indigo-600 block mb-2 flex items-center gap-2">
                 <span className="w-4 h-4 bg-gradient-to-r from-indigo-400 to-indigo-600 flex items-center justify-center text-white text-[10px]">🦵</span>
                 Leg Exercises
@@ -328,7 +312,7 @@ function WorkoutSidebar({ userData, onWorkoutUpdate }) {
                   type="number"
                   value={workoutData.legExercises.count}
                   onChange={(e) => handleInputChange('legExercises', 'count', e.target.value)}
-                  className="w-full px-2 py-1 border border-indigo-300 text-xs focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+                  className="w-full px-3 py-2 bg-white border border-indigo-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
                   placeholder="Count"
                   min="0"
                 />
@@ -336,14 +320,14 @@ function WorkoutSidebar({ userData, onWorkoutUpdate }) {
                   type="number"
                   value={workoutData.legExercises.frequency}
                   onChange={(e) => handleInputChange('legExercises', 'frequency', e.target.value)}
-                  className="w-full px-2 py-1 border border-indigo-300 text-xs focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+                  className="w-full px-3 py-2 bg-white border border-indigo-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
                   placeholder="Days/week"
                   min="0"
                 />
               </div>
             </div>
 
-            <div className="group bg-white border border-amber-200 p-3 hover:border-amber-300 hover:shadow-sm transition-all duration-300">
+            <div className="bg-white border border-amber-200 p-3">
               <label className="text-xs font-medium text-amber-600 block mb-2 flex items-center gap-2">
                 <span className="w-4 h-4 bg-gradient-to-r from-amber-400 to-amber-600 flex items-center justify-center text-white text-[10px]">🧘</span>
                 Core Exercises
@@ -353,7 +337,7 @@ function WorkoutSidebar({ userData, onWorkoutUpdate }) {
                   type="number"
                   value={workoutData.coreExercises.count}
                   onChange={(e) => handleInputChange('coreExercises', 'count', e.target.value)}
-                  className="w-full px-2 py-1 border border-amber-300 text-xs focus:ring-1 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200"
+                  className="w-full px-3 py-2 bg-white border border-amber-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-amber-500 focus:border-amber-500 shadow-sm"
                   placeholder="Count"
                   min="0"
                 />
@@ -361,7 +345,7 @@ function WorkoutSidebar({ userData, onWorkoutUpdate }) {
                   type="number"
                   value={workoutData.coreExercises.frequency}
                   onChange={(e) => handleInputChange('coreExercises', 'frequency', e.target.value)}
-                  className="w-full px-2 py-1 border border-amber-300 text-xs focus:ring-1 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200"
+                  className="w-full px-3 py-2 bg-white border border-amber-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-amber-500 focus:border-amber-500 shadow-sm"
                   placeholder="Days/week"
                   min="0"
                 />

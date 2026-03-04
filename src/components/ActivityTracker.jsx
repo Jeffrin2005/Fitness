@@ -2,27 +2,39 @@ import { useState, useEffect } from 'react'
 
 function ActivityTracker({ data }) {
   const [activities, setActivities] = useState(data || {
-    steps: 8547,
+    steps: 0,
     stepsGoal: 10000,
-    runningKm: 3.2,
+    runningKm: 0,
     runningGoal: 5,
-    caloriesBurned: 420
+    caloriesBurned: 0
   })
 
   useEffect(() => {
-    // Load initial data from prop or localStorage
+    // Load initial data from localStorage first, then override with prop if provided
+    const csvActivityData = localStorage.getItem('activityData')
+    let initialData = {
+      steps: 0,
+      stepsGoal: 10000,
+      runningKm: 0,
+      runningGoal: 5,
+      caloriesBurned: 0
+    }
+    
+    // Load from localStorage if available
+    if (csvActivityData) {
+      try {
+        const savedData = JSON.parse(csvActivityData)
+        initialData = savedData
+      } catch (error) {
+        console.error('Failed to parse activity data from CSV:', error)
+      }
+    }
+    
+    // Override with prop data if provided (prop takes precedence)
     if (data) {
       setActivities(data)
     } else {
-      // Check for CSV uploaded activity data
-      const csvActivityData = localStorage.getItem('activityData')
-      if (csvActivityData) {
-        try {
-          setActivities(JSON.parse(csvActivityData))
-        } catch (error) {
-          console.error('Failed to parse activity data from CSV:', error)
-        }
-      }
+      setActivities(initialData)
     }
   }, [data])
 

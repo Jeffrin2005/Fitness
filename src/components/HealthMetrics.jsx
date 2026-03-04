@@ -2,28 +2,41 @@ import { useState, useEffect } from 'react'
 
 function HealthMetrics({ data }) {
   const [metrics, setMetrics] = useState(data || {
-    bloodSugar: 95,
-    bloodPressure: { systolic: 120, diastolic: 80 },
-    heartRate: 72,
-    weight: 75,
-    bmi: 23.5,
-    bodyFat: 18
+    bloodSugar: 0,
+    bloodPressure: { systolic: 0, diastolic: 0 },
+    heartRate: 0,
+    weight: 0,
+    bmi: 0,
+    bodyFat: 0
   })
 
   useEffect(() => {
-    // Load initial data from prop or localStorage
+    // Load initial data from localStorage first, then override with prop if provided
+    const csvHealthData = localStorage.getItem('healthMetricsData')
+    let initialData = {
+      bloodSugar: 0,
+      bloodPressure: { systolic: 0, diastolic: 0 },
+      heartRate: 0,
+      weight: 0,
+      bmi: 0,
+      bodyFat: 0
+    }
+    
+    // Load from localStorage if available
+    if (csvHealthData) {
+      try {
+        const savedData = JSON.parse(csvHealthData)
+        initialData = savedData
+      } catch (error) {
+        console.error('Failed to parse health metrics from CSV:', error)
+      }
+    }
+    
+    // Override with prop data if provided (prop takes precedence)
     if (data) {
       setMetrics(data)
     } else {
-      // Check for CSV uploaded health data
-      const csvHealthData = localStorage.getItem('healthMetricsData')
-      if (csvHealthData) {
-        try {
-          setMetrics(JSON.parse(csvHealthData))
-        } catch (error) {
-          console.error('Failed to parse health metrics from CSV:', error)
-        }
-      }
+      setMetrics(initialData)
     }
   }, [data])
 
@@ -33,15 +46,15 @@ function HealthMetrics({ data }) {
       const csvData = event.detail
       if (csvData) {
         const newHealthData = {
-          bloodSugar: parseInt(csvData.bloodSugar) || 95,
+          bloodSugar: parseInt(csvData.bloodSugar) || 0,
           bloodPressure: { 
-            systolic: parseInt(csvData.bloodPressureSystolic) || 120, 
-            diastolic: parseInt(csvData.bloodPressureDiastolic) || 80 
+            systolic: parseInt(csvData.bloodPressureSystolic) || 0, 
+            diastolic: parseInt(csvData.bloodPressureDiastolic) || 0 
           },
-          heartRate: parseInt(csvData.heartRate) || 72,
-          weight: parseInt(csvData.weight) || 75,
-          bmi: parseFloat(csvData.bmi) || 23.5,
-          bodyFat: parseInt(csvData.bodyFat) || 18
+          heartRate: parseInt(csvData.heartRate) || 0,
+          weight: parseInt(csvData.weight) || 0,
+          bmi: parseFloat(csvData.bmi) || 0,
+          bodyFat: parseInt(csvData.bodyFat) || 0
         }
         setMetrics(newHealthData)
       }

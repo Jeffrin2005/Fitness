@@ -24,12 +24,12 @@ const createDefaultUserData = (username) => ({
     overall: 50
   },
   healthMetrics: {
-    bloodSugar: 95,
-    bloodPressure: { systolic: 120, diastolic: 80 },
-    heartRate: 72,
-    weight: 70,
-    bmi: 22,
-    bodyFat: 20
+    bloodSugar: 0,
+    bloodPressure: { systolic: 0, diastolic: 0 },
+    heartRate: 0,
+    weight: 0,
+    bmi: 0,
+    bodyFat: 0
   },
   nutrition: {
     proteinTarget: 150,

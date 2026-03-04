@@ -438,15 +438,6 @@ function Nutrition() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <div className="fixed inset-0 bg-gradient-to-br from-blue-50/90 via-white/80 to-purple-50/90 pointer-events-none">
-        <div className="absolute inset-0 opacity-20">
-          <div className="h-full w-full" style={{
-            backgroundImage: `linear-gradient(45deg, #e0e7ff 25%, transparent 25%, transparent 75%, #e0e7ff 75%, #e0e7ff), linear-gradient(-45deg, #e0e7ff 25%, transparent 25%, transparent 75%, #e0e7ff 75%, #e0e7ff)`,
-            backgroundSize: '60px 60px',
-            backgroundPosition: '0 0, 30px 30px'
-          }}></div>
-        </div>
-      </div>
 
       <div className="relative z-10">
         <header className={`bg-white border-b border-blue-200 shadow-md sticky top-0 z-40 transition-all duration-700 ${animateContent ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>

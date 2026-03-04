@@ -38,15 +38,15 @@ const userSchema = new mongoose.Schema({
     overall: { type: Number, default: 50 }
   },
   healthMetrics: {
-    bloodSugar: { type: Number, default: 95 },
+    bloodSugar: { type: Number, default: 0 },
     bloodPressure: {
-      systolic: { type: Number, default: 120 },
-      diastolic: { type: Number, default: 80 }
+      systolic: { type: Number, default: 0 },
+      diastolic: { type: Number, default: 0 }
     },
-    heartRate: { type: Number, default: 72 },
-    weight: { type: Number, default: 70 },
-    bmi: { type: Number, default: 22 },
-    bodyFat: { type: Number, default: 20 }
+    heartRate: { type: Number, default: 0 },
+    weight: { type: Number, default: 0 },
+    bmi: { type: Number, default: 0 },
+    bodyFat: { type: Number, default: 0 }
   },
   nutrition: {
     proteinTarget: { type: Number, default: 150 },
