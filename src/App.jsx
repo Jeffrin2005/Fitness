@@ -8,6 +8,8 @@ import HealthVitals from './pages/HealthVitals'
 import Nutrition from './pages/Nutrition'
 import Workout from './pages/Workout'
 import ExerciseDetail from './pages/ExerciseDetail'
+import Friends from './pages/Friends'
+import FriendsGroup from './pages/FriendsGroup'
 
 function AppContent() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -308,6 +310,8 @@ function AppContent() {
           <Route path="/health-vitals" element={<HealthVitals userData={userData} />} />
           <Route path="/nutrition" element={<Nutrition userData={userData} />} />
           <Route path="/workouts" element={<Workout userData={userData} />} />
+          <Route path="/friends" element={<Friends />} />
+          <Route path="/friends/:groupId" element={<FriendsGroup />} />
           <Route path="/exercise/:exerciseId" element={<ExerciseDetail />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

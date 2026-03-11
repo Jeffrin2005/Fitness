@@ -50,6 +50,15 @@ function Layout({ children, userData, onLogout }) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
         </svg>
       )
+    },
+    {
+      name: 'Friends',
+      path: '/friends',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-4-4h-1m-4 6H2v-2a4 4 0 014-4h1m6 6v-2a4 4 0 00-4-4H8m4-4a4 4 0 10-8 0 4 4 0 008 0zm10 0a4 4 0 10-8 0 4 4 0 008 0z" />
+        </svg>
+      )
     }
   ]
 

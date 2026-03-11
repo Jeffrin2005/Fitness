@@ -3,6 +3,8 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import authRoutes from '../server/routes/auth.js'
 import userRoutes from '../server/routes/user.js'
+import workoutRoutes from '../server/routes/workout.js'
+import groupRoutes from '../server/routes/groups.js'
 
 const app = express()
 
@@ -25,6 +27,8 @@ if (!mongoose.connection.readyState) {
 // Routes
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
+app.use('/api/workout', workoutRoutes)
+app.use('/api/groups', groupRoutes)
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Server is running' })

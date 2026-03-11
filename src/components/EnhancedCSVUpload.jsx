@@ -146,6 +146,8 @@ function EnhancedCSVUpload({ onUploadSuccess, buttonText = "Upload CSV Data" }) 
         e.stopPropagation()
         setDragActive(false)
 
+
+        
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
             handleFileUpload(e.dataTransfer.files[0])
         }

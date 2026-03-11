@@ -3,7 +3,17 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
-function Simple3DModel({ modelPath = '/models/human.glb', workoutData = {} }) {
+function Simple3DModel({
+  modelPath = '/models/human.glb',
+  workoutData = {},
+  showInstructions = true,
+  showLegend = true,
+  transparentBackground = false,
+  maxPixelRatio = 2,
+  autoRotate = true,
+  autoRotateSpeed = 1,
+  enableControls = true
+}) {
   const containerRef = useRef(null)
   const sceneRef = useRef(null)
   const rendererRef = useRef(null)
@@ -60,7 +70,7 @@ function Simple3DModel({ modelPath = '/models/human.glb', workoutData = {} }) {
 
     // Scene setup
     const scene = new THREE.Scene()
-    scene.background = new THREE.Color(0xffffff)
+    scene.background = transparentBackground ? null : new THREE.Color(0xffffff)
     sceneRef.current = scene
 
     // Camera - positioned closer for larger initial view
@@ -73,9 +83,9 @@ function Simple3DModel({ modelPath = '/models/human.glb', workoutData = {} }) {
     camera.position.set(0, 1, 3.5)
 
     // Renderer
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false })
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: transparentBackground })
     renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, maxPixelRatio))
     containerRef.current.appendChild(renderer.domElement)
     rendererRef.current = renderer
 
@@ -97,9 +107,11 @@ function Simple3DModel({ modelPath = '/models/human.glb', workoutData = {} }) {
     controls.dampingFactor = 0.05
     controls.minDistance = 2
     controls.maxDistance = 8
-    controls.autoRotate = true
-    controls.autoRotateSpeed = 1
+    controls.autoRotate = autoRotate
+    controls.autoRotateSpeed = autoRotateSpeed
     controls.enablePan = false
+    controls.enableRotate = enableControls
+    controls.enableZoom = enableControls
 
     // Load 3D Model
     const loader = new GLTFLoader()
@@ -246,19 +258,21 @@ function Simple3DModel({ modelPath = '/models/human.glb', workoutData = {} }) {
         })
       }
     }
-  }, [modelPath, growthFactors])
+  }, [modelPath, growthFactors, maxPixelRatio, autoRotate, autoRotateSpeed, enableControls, transparentBackground])
 
   return (
     <div className="relative w-full h-full bg-white rounded-2xl overflow-hidden shadow-2xl border-2 border-gray-200">
       <div ref={containerRef} className="w-full h-full" />
 
       {/* Instructions */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 backdrop-blur-sm px-4 py-2 rounded-full text-white text-sm z-10">
-        🖱️ Drag to rotate • Scroll to zoom
-      </div>
+      {showInstructions && (
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 backdrop-blur-sm px-4 py-2 rounded-full text-white text-sm z-10">
+          🖱️ Drag to rotate • Scroll to zoom
+        </div>
+      )}
 
       {/* Muscle Growth Legend */}
-      {Object.keys(growthFactors).length > 0 && (
+      {showLegend && Object.keys(growthFactors).length > 0 && (
         <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-lg border border-gray-200">
           <h4 className="text-xs font-bold text-gray-800 mb-2">Muscle Growth</h4>
           <div className="space-y-1 text-xs">

@@ -92,6 +92,14 @@ const userSchema = new mongoose.Schema({
       frequency: { type: Number, default: 0 }
     }
   },
+  currentStreak: {
+    type: Number,
+    default: 0
+  },
+  lastWorkoutAt: {
+    type: Date,
+    default: null
+  },
   createdAt: {
     type: Date,
     default: Date.now

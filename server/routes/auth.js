@@ -110,7 +110,9 @@ router.post('/signup', async (req, res) => {
         healthMetrics: user.healthMetrics,
         nutrition: user.nutrition,
         exercises: user.exercises,
-        workoutData: user.workoutData
+        workoutData: user.workoutData,
+        currentStreak: user.currentStreak,
+        lastWorkoutAt: user.lastWorkoutAt
       }
     })
   } catch (error) {
@@ -183,7 +185,9 @@ router.post('/login', async (req, res) => {
         healthMetrics: user.healthMetrics,
         nutrition: user.nutrition,
         exercises: user.exercises,
-        workoutData: user.workoutData
+        workoutData: user.workoutData,
+        currentStreak: user.currentStreak,
+        lastWorkoutAt: user.lastWorkoutAt
       }
     })
   } catch (error) {

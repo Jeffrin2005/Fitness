@@ -5,6 +5,39 @@ import User from '../models/User.js'
 const router = express.Router()
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production'
 
+const startOfDay = (d) => {
+  const x = new Date(d)
+  x.setHours(0, 0, 0, 0)
+  return x
+}
+
+const daysBetween = (a, b) => {
+  const ms = startOfDay(b).getTime() - startOfDay(a).getTime()
+  return Math.round(ms / (1000 * 60 * 60 * 24))
+}
+
+const applyStreakUpdate = (user, now = new Date()) => {
+  if (!user.lastWorkoutAt) {
+    user.currentStreak = 1
+    user.lastWorkoutAt = now
+    return
+  }
+
+  const deltaDays = daysBetween(user.lastWorkoutAt, now)
+
+  if (deltaDays <= 0) {
+    user.lastWorkoutAt = now
+    return
+  }
+
+  if (deltaDays === 1) {
+    user.currentStreak = (user.currentStreak || 0) + 1
+  } else {
+    user.currentStreak = 1
+  }
+  user.lastWorkoutAt = now
+}
+
 // Middleware to verify token
 const authMiddleware = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1]
@@ -38,6 +71,8 @@ router.put('/update', authMiddleware, async (req, res) => {
         ...req.body.workoutData
       }
     }
+
+    applyStreakUpdate(user)
 
     // Recalculate body metrics based on workout data
     const workoutData = user.workoutData
@@ -73,6 +108,8 @@ router.put('/update', authMiddleware, async (req, res) => {
       success: true,
       workoutData: user.workoutData,
       bodyMetrics: user.bodyMetrics,
+      currentStreak: user.currentStreak,
+      lastWorkoutAt: user.lastWorkoutAt,
       message: 'Workout data updated successfully'
     })
   } catch (error) {
@@ -165,12 +202,16 @@ router.post('/session', authMiddleware, async (req, res) => {
     )
 
     user.bodyMetrics = newBodyMetrics
+
+    applyStreakUpdate(user)
     await user.save()
 
     res.json({
       success: true,
       workoutData: user.workoutData,
       bodyMetrics: user.bodyMetrics,
+      currentStreak: user.currentStreak,
+      lastWorkoutAt: user.lastWorkoutAt,
       message: 'Workout session recorded successfully'
     })
   } catch (error) {

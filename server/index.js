@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import authRoutes from './routes/auth.js'
 import userRoutes from './routes/user.js'
 import workoutRoutes from './routes/workout.js'
+import groupRoutes from './routes/groups.js'
 import uploadRoutes from './routes/upload.js'
 import aiRoutes from './routes/ai.js'
 
@@ -34,6 +35,7 @@ mongoose.connect(MONGODB_URI)
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/workout', workoutRoutes)
+app.use('/api/groups', groupRoutes)
 app.use('/api/upload', uploadRoutes)
 app.use('/api/ai', aiRoutes)
 
