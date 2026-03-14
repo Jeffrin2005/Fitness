@@ -161,6 +161,92 @@ function FriendsGroup() {
     return { label: 'Starter', classes: 'bg-gray-100 text-gray-800 border-gray-200' }
   }
 
+  const renderPodium = () => {
+    if (loading || membersSorted.length === 0) return null
+
+    const topMembers = membersSorted.slice(0, 3)
+    let podiumOrder = []
+    if (topMembers.length >= 3) {
+      podiumOrder = [
+        { member: topMembers[1], rank: 2 },
+        { member: topMembers[0], rank: 1 },
+        { member: topMembers[2], rank: 3 }
+      ]
+    } else if (topMembers.length === 2) {
+      podiumOrder = [
+        { member: topMembers[1], rank: 2 },
+        { member: topMembers[0], rank: 1 }
+      ]
+    } else {
+      podiumOrder = [
+        { member: topMembers[0], rank: 1 }
+      ]
+    }
+
+    return (
+      <div className="relative rounded-3xl overflow-hidden bg-gray-50 pt-16 pb-0 px-4 sm:px-8 shadow-md border border-gray-200 z-10 mt-2">
+        
+        <div className="flex items-end justify-center gap-3 sm:gap-6 h-[320px] relative z-10 w-full max-w-3xl mx-auto">
+          {podiumOrder.map((item) => {
+            const { member, rank } = item
+
+            let heightClass = "h-[200px]"
+            let colorClass = "bg-gradient-to-b from-[#fcd34d] to-[#fbbf24] border-t-[8px] border-[#fde68a] shadow-[0_0_40px_rgba(250,204,21,0.5)]"
+            let textColors = { name: "text-orange-500", score: "text-orange-600", number: "text-yellow-700" }
+            let delay = 0.2
+
+            if (rank === 2) {
+              heightClass = "h-[140px]"
+              colorClass = "bg-gradient-to-b from-[#e2e8f0] to-[#cbd5e1] border-t-[8px] border-[#f1f5f9] shadow-lg"
+              textColors = { name: "text-slate-400", score: "text-[#1e293b]", number: "text-slate-500" }
+              delay = 0.4
+            } else if (rank === 3) {
+              heightClass = "h-[110px]"
+              colorClass = "bg-gradient-to-b from-[#fdba74] to-[#fb923c] border-t-[8px] border-[#fed7aa] shadow-lg"
+              textColors = { name: "text-[#9a3412]", score: "text-[#7c2d12]", number: "text-orange-800" }
+              delay = 0.6
+            }
+
+            return (
+              <motion.div
+                key={member._id}
+                className="flex flex-col items-center w-28 sm:w-36 relative"
+                initial={{ y: 200, opacity: 0 }}
+                animate={(!hasShownPopup || showTopRankPopup) ? { y: 200, opacity: 0 } : { y: 0, opacity: 1 }}
+                transition={{ delay, type: "spring", stiffness: 100, damping: 15 }}
+              >
+                {rank === 1 && (
+                  <motion.div 
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.8, type: "spring", bounce: 0.6 }}
+                    className="absolute -top-[70px] text-5xl filter drop-shadow-md z-20"
+                  >
+                    👑
+                  </motion.div>
+                )}
+                
+                <div className={`font-black text-[15px] sm:text-lg mb-0.5 ${textColors.name} truncate w-full text-center z-10 drop-shadow-sm`}>
+                  {member.username}
+                </div>
+                <div className={`font-black text-2xl sm:text-3xl mb-3 ${textColors.score} z-10 drop-shadow-sm`}>
+                  {formatPct(member?.bodyMetrics?.overall ?? 0)}
+                </div>
+                
+                <div className={`w-full rounded-t-3xl flex flex-col justify-start pt-6 items-center ${heightClass} ${colorClass} relative`}>
+                  <div className="absolute inset-0 bg-white/5 rounded-t-3xl pointer-events-none" />
+                  <span className={`text-4xl sm:text-5xl font-black ${textColors.number} opacity-80 z-10`}>
+                    {rank}
+                  </span>
+                </div>
+              </motion.div>
+            )
+          })}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-6">
       <AnimatePresence>
@@ -257,6 +343,7 @@ function FriendsGroup() {
       )}
 
       <div className="grid grid-cols-1 gap-6">
+        {renderPodium()}
         <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
           <div className="flex items-center justify-between gap-3 mb-4">
             <h2 className="text-xl font-bold text-gray-900">Friends</h2>
