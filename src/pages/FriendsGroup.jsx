@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 import Simple3DModel from '../components/Simple3DModel'
 
 function FriendsGroup() {
@@ -10,6 +11,8 @@ function FriendsGroup() {
   const [loading, setLoading] = useState(false)
   const [detailsOpen, setDetailsOpen] = useState(false)
   const [details, setDetails] = useState(null)
+  const [showTopRankPopup, setShowTopRankPopup] = useState(false)
+  const [hasShownPopup, setHasShownPopup] = useState(false)
 
   const token = useMemo(() => localStorage.getItem('token'), [])
 
@@ -63,6 +66,34 @@ function FriendsGroup() {
     return series
   }
 
+  const generateActivityMap = (member, weeksCount = 14) => {
+    if (!member) return []
+    const seed = hashString(`${member._id}-${member.username}-activity`)
+    const rnd = createRng(seed)
+    const overall = member?.bodyMetrics?.overall ?? 0
+    const probability = Math.max(0.15, Math.min(0.85, overall / 100))
+
+    const weeks = []
+    for (let w = 0; w < weeksCount; w++) {
+      const week = []
+      for (let d = 0; d < 7; d++) {
+        // Calculate days ago to end exactly on today
+        const daysAgo = (weeksCount - 1 - w) * 7 + (6 - d)
+        const date = new Date()
+        date.setDate(date.getDate() - daysAgo)
+        const dateStr = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
+
+        let level = 0
+        if (rnd() < probability) {
+          level = Math.floor(rnd() * 4) + 1
+        }
+        week.push({ level, dateStr })
+      }
+      weeks.push(week)
+    }
+    return weeks
+  }
+
   useEffect(() => {
     const fetchGroup = async () => {
       if (!token) return
@@ -94,6 +125,17 @@ function FriendsGroup() {
     return [...members].sort((a, b) => (b?.bodyMetrics?.overall ?? 0) - (a?.bodyMetrics?.overall ?? 0))
   }, [members])
 
+  useEffect(() => {
+    if (!loading && membersSorted.length > 0 && !hasShownPopup) {
+      setShowTopRankPopup(true)
+      setHasShownPopup(true)
+      const timer = setTimeout(() => {
+        setShowTopRankPopup(false)
+      }, 4500)
+      return () => clearTimeout(timer)
+    }
+  }, [loading, membersSorted, hasShownPopup])
+
   const avatarModels = ['/models/friend.glb', '/models/gym-model.glb', '/models/human.glb']
 
   const openDetails = (member, modelPath, rank) => {
@@ -121,6 +163,78 @@ function FriendsGroup() {
 
   return (
     <div className="space-y-6">
+      <AnimatePresence>
+        {showTopRankPopup && membersSorted[0] && (
+          <motion.div
+            className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 p-1.5 rounded-[2rem] shadow-[0_0_80px_rgba(249,115,22,0.6)] relative cursor-pointer"
+              initial={{ scale: 0, y: 150, rotate: -15 }}
+              animate={{ scale: 1, y: 0, rotate: 0 }}
+              exit={{ scale: 0, y: 100, rotate: 15 }}
+              transition={{ type: "spring", damping: 14, stiffness: 200 }}
+              onClick={() => setShowTopRankPopup(false)}
+            >
+              <motion.div
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="absolute -top-12 left-1/2 -translate-x-1/2 text-[5rem] filter drop-shadow-xl z-20 origin-bottom"
+              >
+                <div className="animate-bounce">👑</div>
+              </motion.div>
+
+              <div className="bg-white rounded-[1.7rem] px-12 py-10 flex flex-col items-center text-center min-w-[320px] max-w-[90vw] relative overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-orange-100/50 via-white to-white pointer-events-none" />
+
+                <motion.div
+                  initial={{ scale: 0, rotate: -90 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ delay: 0.3, type: "spring", bounce: 0.6 }}
+                  className="w-28 h-28 rounded-full bg-gradient-to-br from-orange-500 to-red-500 text-white flex items-center justify-center font-black text-5xl shadow-[0_10px_30px_rgba(239,68,68,0.5)] border-4 border-white mb-6 z-10 relative"
+                >
+                  #1
+                </motion.div>
+
+                <div className="z-10 relative space-y-3">
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                    className="text-sm font-black text-orange-500 uppercase tracking-widest"
+                  >
+                    Group Leader
+                  </motion.div>
+                  <motion.h2
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6 }}
+                    className="text-4xl sm:text-5xl font-black text-gray-900 break-all"
+                  >
+                    {membersSorted[0].username}
+                  </motion.h2>
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.7, type: "spring" }}
+                    className="flex justify-center mt-6"
+                  >
+                    <div className="bg-gradient-to-r from-orange-50 to-red-50 text-orange-700 px-6 py-3 rounded-2xl font-bold border border-orange-200 flex items-center gap-3 shadow-inner">
+                      <span className="text-xl">🔥</span>
+                      <span>Score: <span className="text-2xl font-black text-orange-600">{formatPct(membersSorted[0]?.bodyMetrics?.overall ?? 0)}</span></span>
+                    </div>
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
@@ -192,8 +306,8 @@ function FriendsGroup() {
 
       {detailsOpen && details && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center px-4">
-          <div className="w-full max-w-4xl bg-white rounded-3xl border border-gray-200 shadow-2xl overflow-hidden">
-            <div className="p-5 border-b border-gray-200 flex items-center justify-between gap-4">
+          <div className="w-full max-w-4xl bg-white rounded-3xl border border-gray-200 shadow-2xl flex flex-col max-h-[90vh]">
+            <div className="p-5 border-b border-gray-200 flex items-center justify-between gap-4 shrink-0">
               <div>
                 <div className="text-lg font-bold text-gray-900">#{details.rank} {details.member.username}</div>
                 <div className="text-xs text-gray-500">{details.modelPath.replace('/models/', '')}</div>
@@ -206,18 +320,18 @@ function FriendsGroup() {
                 Close
               </button>
             </div>
-            <div className="p-5 grid grid-cols-1 lg:grid-cols-2 gap-5">
-              <div className="w-full h-[240px] sm:h-[280px] lg:h-[340px] rounded-3xl overflow-hidden border border-gray-200 bg-white">
-                <Simple3DModel
-                  modelPath={details.modelPath}
-                  workoutData={details.member?.workoutData}
-                  showInstructions={false}
-                  showLegend={false}
-                  transparentBackground
-                />
-              </div>
+            <div className="p-5 grid grid-cols-1 lg:grid-cols-2 gap-5 overflow-y-auto">
+              <div className="space-y-4 shrink-0 lg:sticky lg:top-0 h-fit">
+                <div className="w-full h-[240px] sm:h-[280px] lg:h-[340px] rounded-3xl overflow-hidden border border-gray-200 bg-white">
+                  <Simple3DModel
+                    modelPath={details.modelPath}
+                    workoutData={details.member?.workoutData}
+                    showInstructions={false}
+                    showLegend={false}
+                    transparentBackground
+                  />
+                </div>
 
-              <div className="space-y-4">
                 <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4">
                   <div className="text-xs font-semibold text-gray-500">Overall</div>
                   <div className="text-3xl font-black text-gray-900">{formatPct(details.member?.bodyMetrics?.overall ?? 0)}</div>
@@ -228,6 +342,46 @@ function FriendsGroup() {
                     Streak: <span className="font-semibold text-gray-900">{details.member?.currentStreak ?? 0}</span>
                     <span className="mx-2">•</span>
                     Last workout: <span className="font-semibold text-gray-900">{details.member?.lastWorkoutAt ? new Date(details.member.lastWorkoutAt).toLocaleDateString() : '—'}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4 pb-4">
+                <div className="rounded-2xl border border-gray-200 bg-white p-4">
+                  <div className="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <span className="text-green-500">⚡</span> Activity Streak
+                  </div>
+                  <div className="flex gap-[3px] overflow-x-auto pb-2 scrollbar-hide">
+                    {generateActivityMap(details.member).map((week, wIdx) => (
+                      <div key={wIdx} className="flex flex-col gap-[3px] shrink-0">
+                        {week.map((item, dIdx) => (
+                          <div
+                            key={dIdx}
+                            className={`w-[10px] h-[10px] sm:w-3 sm:h-3 rounded-[2px] cursor-pointer hover:ring-1 ring-gray-400 ${item.level === 0 ? 'bg-gray-100' :
+                                item.level === 1 ? 'bg-green-200' :
+                                  item.level === 2 ? 'bg-green-400' :
+                                    item.level === 3 ? 'bg-green-600' :
+                                      'bg-green-800'
+                              }`}
+                            title={`${item.dateStr}: Activity level ${item.level}`}
+                          />
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex items-center justify-between mt-3 text-xs text-gray-500">
+                    <div>14 Weeks</div>
+                    <div className="flex items-center gap-1">
+                      <span>Less</span>
+                      <div className="flex gap-[3px]">
+                        <div className="w-[10px] h-[10px] sm:w-3 sm:h-3 rounded-[2px] bg-gray-100" />
+                        <div className="w-[10px] h-[10px] sm:w-3 sm:h-3 rounded-[2px] bg-green-200" />
+                        <div className="w-[10px] h-[10px] sm:w-3 sm:h-3 rounded-[2px] bg-green-400" />
+                        <div className="w-[10px] h-[10px] sm:w-3 sm:h-3 rounded-[2px] bg-green-600" />
+                        <div className="w-[10px] h-[10px] sm:w-3 sm:h-3 rounded-[2px] bg-green-800" />
+                      </div>
+                      <span>More</span>
+                    </div>
                   </div>
                 </div>
 
