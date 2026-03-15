@@ -18,11 +18,30 @@ app.use(express.json())
 // MongoDB Connection
 const MONGODB_URI = process.env.MONGODB_URI
 
-if (!mongoose.connection.readyState) {
-  mongoose.connect(MONGODB_URI)
-    .then(() => console.log('✅ Connected to MongoDB'))
-    .catch((err) => console.error('❌ MongoDB connection error:', err))
+let isConnected = false
+
+const connectDB = async () => {
+  if (isConnected || mongoose.connection.readyState === 1) {
+    return
+  }
+  
+  try {
+    console.log('⏳ Connecting to MongoDB...')
+    const db = await mongoose.connect(MONGODB_URI, {
+      serverSelectionTimeoutMS: 5000
+    })
+    isConnected = db.connections[0].readyState === 1
+    console.log('✅ Connected to MongoDB')
+  } catch (err) {
+    console.error('❌ MongoDB connection error:', err)
+  }
 }
+
+// Apply DB connection middleware before routes
+app.use(async (req, res, next) => {
+  await connectDB()
+  next()
+})
 
 // Routes
 app.use('/api/auth', authRoutes)
